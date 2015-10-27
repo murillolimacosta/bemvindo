@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="${lang}">
+    <head>
+        <title>#{get 'title' /}</title>
+        <meta charset="utf-8" />
+        <meta charset="${_response_encoding}" />
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/crud.css'}" />
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/style-menu.css'}" />
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/style.css'}" />
+
+        <!-- For E-mail Marketing -->
+		<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/sendemaildemo.css'}" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/sendmailcomponent.css'}" />
+
+        <!-- For datepicker -->
+		<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/jquery-ui-1.8.20.custom.css'}" />
+		<script src="@{'/public/javascripts/jquery-1.7.2.min.js'}"></script>
+		<script src="@{'/public/javascripts/jquery-ui-1.8.20.custom.min.js'}"></script>
+        
+        <script type="text/javascript">
+        	window.onload = function() {
+        		document.getElementById("object_postedAt").disabled = true;
+        	}
+       		jQuery(document).ready( function() {
+       			jQuery('#object_birthDate').addClass('datepicker');
+       			jQuery('#object_visitDay').addClass('datepicker');
+       			jQuery('#object_memberSince').addClass('datepicker');
+       		} );
+        </script>
+        
+		<!--[if IE]>
+  		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<script type="text/javascript">
+			jQuery(document).ready(function(){
+				jQuery(".datepicker").datepicker({
+						dateFormat: 'dd/mm/yy',
+						dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'],
+						dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+						dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+						monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+						monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+						nextText: 'Próximo',
+						prevText: 'Anterior',
+						changeYear:true,
+						yearRange: "1900:2015"
+					});
+			});
+		</script>
+    </head>
+    <body id="crud">
+        <div id="crudHeader">
+            <h1><a href="@{CRUD.index()}"><img alt="BemVindo!" src="@{'public/images/logo.png'}"></a></h1>
+        </div>
+
+#{if request.actionMethod != 'index'}
+            <div id="crudBreadcrumb">
+                #{crud.navigation /}
+            </div>
+#{/if}
+#{if flash.success}
+            <div class="crudFlash flashSuccess">
+                ${flash.success}
+            </div>
+#{/if}
+#{if flash.error || error}
+            <div class="crudFlash flashError">
+                ${error ?: flash.error}
+            </div>
+#{/if}
+
+        <div id="crudContent">
+#{doLayout /}
+        </div>
+        <div id="crudFooter">
+            <a href="/painel">Início</a> | <a href="/logout">Sair</a> | <a href="&{'project.link'}">&{'project.name'}</a> - Versão: &{'project.version'}
+        </div>
+
+    </body>
+</html>
+

@@ -1,0 +1,36 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<p id="line">&nbsp;</p>
+<table>
+	<thead>
+		<tr>
+			<th>Últimos visitantes</th>
+			<th width="30%">E-mail</th>
+			<th width="20%">Evento</th>
+			<th width="13%">Data da visita</th>
+			<th width="10%">Ativo</th>
+		</tr>
+	</thead>
+	<tbody>
+		#{list listVisitors, as:'visitor'}
+			<tr>
+				<td><a href="/painel/visitantes">${visitor.getNameAndLastNameLimited()} </a></td>
+				<td><a href="/painel/visitantes">&{visitor.getEmailLimited()}</a></td>
+				<td><a href="/painel/visitantes">&{visitor.getEventLimited()}</a></td>
+				<td><a href="/painel/visitantes">&{visitor.getVisitDay().format("dd/MM/yyyy")}</a></td>
+				<td><a href="/painel/visitantes">&{visitor.isActive()}</a></td>
+			</tr>
+		#{/list}
+	</tbody>
+</table>
+
+#{if contVisitors == 0}
+	<p id="line"><b>Nenhum</b> visitante cadastrado.</p>
+#{/if}
+#{if contVisitors > 0}
+	#{if contVisitors == 1}
+		<p id="line"><b>1</b> visitante cadastrado.</p>
+	#{/if}
+	#{else}
+		<p id="line"><b>&{contVisitors}</b> visitantes cadastrados.</p>
+	#{/else}
+#{/if}

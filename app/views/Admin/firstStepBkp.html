@@ -1,0 +1,295 @@
+<html lang="${lang}">
+<head>
+<meta charset="utf-8" />
+#{set title:'Primeiros passos' /} #{include 'includes/headCrud.html' /}
+<link href="@{'public/stylesheets/prettify.css'}" rel="stylesheet">
+</head>
+<body>
+	<div id="wrapper">
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+			<!-- Logo navbar -->
+			#{include 'includes/logoNavBar.html' /}
+			<!-- Logo navbar -->
+			<!-- Menu Top Side -->
+			#{include 'includes/menuPainelTop.html' /}
+			<!-- Menu Top Side -->
+			<!-- Menu Left Side -->
+			#{include 'includes/menuPainelLeft.html' /}
+			<!-- Menu Left Side -->
+		</nav>
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Primeiros passos</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<ol class="breadcrumb">
+				<li><a href="@{CRUD.index()}">&{'crud.home'}</a></li>
+				<li><a href="@{CRUD.index()}">Primeiros passos</a></li>
+			</ol>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div id="rootwizard">
+								<div class="navbar">
+									<div class="navbar-inner">
+										<div class="container">
+											<ul>
+												<li><a href="#tab1" data-toggle="tab">Início</a></li>
+												<li><a href="#tab2" data-toggle="tab">Passo 1</a></li>
+												<li><a href="#tab3" data-toggle="tab">Passo 2</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div id="bar" class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+								</div>
+								<div class="tab-content">
+									<div class="tab-pane" id="tab1">
+										<div class="row">
+											<div class="col-lg-6">
+												<div class="form-group">
+													<h4></h4>
+													<h4>
+														Olá, <b>${user}</b>!<br> Vamos começar ajustando as configurações? <br> Este passo é muito importante. <br> Nele você criará a Instituição que enviará as mensagens. <br>
+														Prossiga ao próximo passo!
+													</h4>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane" id="tab2">
+										<div class="row">
+											<div class="col-lg-6">
+												<h4></h4>
+												#{include 'includes/formInstitution.html' /}
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane" id="tab3">3</div>
+									<ul class="pager wizard">
+										<li class="previous first" style="display: none;"><a href="#">Primeiro</a></li>
+										<li class="previous"><a href="#">Anterior</a></li>
+										<li class="next last" style="display: none;"><a href="#">Último</a></li>
+										<li class="next"><a href="#">Próximo</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading" style="text-align: center">&{'project.name'} © Copyright 2015 - Versão: &{'project.version'}</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+
+	<!-- JQueryUI JS -->
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<!-- JQueryUI JS -->
+	
+	<!-- Save institution -->
+	#{include 'includes/scriptSaveInstitution.html' /}
+	<!-- Save institution -->
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="@{'public/templatebootstrap/bower_components/bootstrap/dist/js/bootstrap.min.js'}"></script>
+	<!-- Bootstrap Core JavaScript -->
+
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="@{'public/templatebootstrap/bower_components/metisMenu/dist/metisMenu.min.js'}"></script>
+	<!-- Metis Menu Plugin JavaScript -->
+
+	<!-- Custom Theme JavaScript -->
+	<script src="@{'public/templatebootstrap/dist/js/sb-admin-2.js'}"></script>
+	<!-- Custom Theme JavaScript -->
+
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="@{'public/templatebootstrap/bower_components/bootstrap/dist/js/bootstrap.min.js'}"></script>
+	<script src="@{'public/javascripts/jquery.bootstrap.wizard.js'}"></script>
+	<script src="@{'public/javascripts/prettify.js'}"></script>
+	<script>
+		$(document)
+				.ready(
+						function() {
+							$('#rootwizard')
+									.bootstrapWizard(
+											{
+												onNext : function(tab,
+														navigation, index) {
+													if (index == 2) {
+														if (!$('#object_institution').val()) {
+															$('#object_institution_msg')
+																	.html(
+																			'Insira o nome da Instituição');
+															$(
+																	'#object_institution')
+																	.focus();
+															return false;
+														} else {
+															$(
+																	'#object_institution_msg')
+																	.html('');
+														}
+														if (!$('#object_slogan')
+																.val()) {
+															$(
+																	'#object_slogan_msg')
+																	.html(
+																			'Insira o slogan da Instituição');
+															$('#object_slogan')
+																	.focus();
+															return false;
+														} else {
+															$(
+																	'#object_slogan_msg')
+																	.html('');
+														}
+														if (!$('#object_email')
+																.val()) {
+															$(
+																	'#object_email_msg')
+																	.html(
+																			'Insira o e-mail da Instituição');
+															$('#object_email')
+																	.focus();
+															return false;
+														} else {
+															$(
+																	'#object_email_msg')
+																	.html('');
+														}
+														if (!$('#object_logo')
+																.val()) {
+															$(
+																	'#object_logo_msg')
+																	.html(
+																			'Insira a logomarca da Instituição');
+															$('#object_logo')
+																	.focus();
+															return false;
+														} else {
+															$(
+																	'#object_logo_msg')
+																	.html('');
+														}
+														if (!$('#object_cnpj')
+																.val()) {
+															$(
+																	'#object_cnpj_msg')
+																	.html(
+																			'Insira o CNPJ da Instituição');
+															$('#object_cnpj')
+																	.focus();
+															return false;
+														} else {
+															$(
+																	'#object_cnpj_msg')
+																	.html('');
+														}
+														if (!$(
+																'#object_address')
+																.val()) {
+															$(
+																	'#object_address_msg')
+																	.html(
+																			'Insira o endereço da Instituição');
+															$('#object_address')
+																	.focus();
+															return false;
+														} else {
+															$(
+																	'#object_address_msg')
+																	.html('');
+														}
+														if (!$(
+																'#object_neighborhood')
+																.val()) {
+															$(
+																	'#object_neighborhood_msg')
+																	.html(
+																			'Insira o bairro da Instituição');
+															$(
+																	'#object_neighborhood')
+																	.focus();
+															return false;
+														} else {
+															$(
+																	'#object_neighborhood_msg')
+																	.html('');
+														}
+														if (!$('#object_cep')
+																.val()) {
+															$('#object_cep_msg')
+																	.html(
+																			'Insira o CEP da Instituição');
+															$('#object_cep')
+																	.focus();
+															return false;
+														} else {
+															$('#object_cep_msg')
+																	.html('');
+														}
+														if (!$('#object_phone1')
+																.val()) {
+															$(
+																	'#object_phone1_msg')
+																	.html(
+																			'Insira o telefone da Instituição');
+															$('#object_phone1')
+																	.focus();
+															return false;
+														} else {
+															$(
+																	'#object_phone1_msg')
+																	.html('');
+														}
+													}
+
+													// Set the name for the next tab
+													$('#tab3')
+															.html(
+																	'Hello, '
+																			+ $(
+																					'#name')
+																					.val());
+
+												},
+												onTabShow : function(tab,
+														navigation, index) {
+													var $total = navigation
+															.find('li').length;
+													var $current = index + 1;
+													var $percent = ($current / $total) * 100;
+													$(
+															'#rootwizard .progress-bar')
+															.css(
+																	{
+																		width : $percent
+																				+ '%'
+																	});
+												}
+											});
+							window.prettyPrint && prettyPrint()
+						});
+	</script>
+	<!-- JQuery Mask -->
+	#{include 'includes/jQueryMask.html' /}
+	<!-- JQuery Mask -->
+
+</body>
+
+</html>

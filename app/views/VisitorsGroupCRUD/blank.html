@@ -1,0 +1,100 @@
+#{extends 'CRUD/layout.html' /}
+#{set title:messages.get('crud.blank.title', type.modelName) /}
+<meta charset="utf-8" />
+<div class="col-lg-12">
+   	<div class="panel panel-default">
+        <div class="panel-heading">
+            &{'crud.blank.title', type.modelName}
+        </div>
+        <div class="panel-body">
+           	<div class="row">
+               	<div class="col-lg-6">
+					#{form action:@create(), enctype:'multipart/form-data'}
+						#{crud.form fields:['title', 'visitors', 'isActive', 'postedAt', 'institutionId']}
+	    					#{crud.custom 'title'}
+								<div class="form-group">
+									<label for="object_title"> Nome do grupo </label>
+									<input id="object_title" class="form-control" type="text" size="50" name="object.title" value="${object.title}">
+								</div>
+							#{/crud.custom}
+	    					#{crud.custom 'visitors'}
+								<div class="form-group">
+									<label> Pesquisar Visitantes </label>
+									<input id="visitor_autocomplete" class="form-control autocomplete" value="">
+									<input id="visitor_aux" class="form-control " type="hidden" name="visitor.aux" value="" />
+								</div>
+								<div class="form-group">
+									<button id="add_visitor" type="button" class="btn btn-default" name="btn_adicionar">Adicionar</button>
+								</div>
+								<div class="form-group">
+									<div id="message"></div>
+								</div>
+								<div class="form-group">
+				                    <div class="panel panel-default">
+				                    	<div class="panel-heading">Visitantes</div>
+										<div class="panel-body">
+											#{include 'includes/gridgroupvisitors.html' /}
+										</div>
+									</div>
+								</div>
+							#{/crud.custom}
+							#{crud.custom 'isActive'}
+								<div class="form-group">
+									<label> Habilitar </label> 
+									<div class="radio">
+                                        <label>
+											<input type="radio" name="object.isActive" id="optionsRadiosInline1" value="true" ${object.isActive?'checked=checked':''}><span title="&{'info.isActive.true'}">Sim</span>
+										</label> 
+									</div>
+									<div class="radio">
+                                        <label>
+											<input type="radio" name="object.isActive" id="optionsRadiosInline2" value="false" ${!object.isActive?'checked=checked':''}><span title="&{'info.isActive.false'}">Não</span>
+										</label> 
+									</div>
+								</div>
+							#{/crud.custom}
+	    					#{crud.custom 'postedAt'}
+								<input id="object_postedAt" class="form-control " type="hidden" name="object.postedAt" />
+							#{/crud.custom}
+						#{/crud.form}
+						<div class="form-group" style="float: right">
+							<button type="submit" class="btn btn-default" name="_save">&{'crud.save', type.modelName}</button>
+							<button type="submit" class="btn btn-default" name="_saveAndContinue">&{'crud.saveAndContinue', type.modelName}</button>
+							<button type="submit" class="btn btn-default" name="_saveAndAddAnother" >&{'crud.saveAndAddAnother', 
+							type.modelName}</button>
+						</div>
+					#{include 'includes/scriptGridVisitors.html' /}
+					#{/form}
+					<style>
+						.v-center {
+							  min-height:200px;
+							  display: flex;
+							  justify-content:center;
+							  flex-flow: column wrap;
+							}
+					</style>
+				</div>
+				<div class="col-lg-6">
+					<a href="@{list()}" class="btn btn-default" style="float: right">&{'crud.cancel', type.modelName}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel"><i class="fa fa-warning"></i> &{'validation.confirm'}</h4>
+			</div>
+			<div class="modal-body">Deseja mesmo remover?</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">&{'validation.no'}</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="javascript:deleteVisitor()">&{'validation.yes'}</button>
+			</div>
+		</div>
+	</div>
+</div>

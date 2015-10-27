@@ -1,0 +1,35 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<p id="line">&nbsp;</p>
+<table>
+	<thead>
+		<tr>
+			<th>Últimos templates</th>
+			<th width="30%">Subtítulo 1</th>
+			<th width="20%">Template</th>
+			<th width="13%">Data de pub.</th>
+			<th width="10%">Ativo</th>
+		</tr>
+	</thead>
+	<tbody>
+		#{list listTemplates, as:'template'}
+			<tr>
+				<td><a href="/painel/configurar-template">${template.getTitle1Limited()}</a></td>
+				<td><a href="/painel/configurar-template">&{template.getSubTitle1Limited()}</a></td>
+				<td><a href="/painel/configurar-template">&{template.template}</a></td>
+				<td><a href="/painel/configurar-template">&{template.getPostedAt().format("dd/MM/yyyy")}</a></td>
+				<td><a href="/painel/configurar-template">&{template.isActive()}</a></td>
+			</tr>
+		#{/list}
+	</tbody>
+</table>
+#{if contTemplates == 0}
+	<p id="line"><b>Nenhum</b> template configurado.</p>
+#{/if}
+#{if contTemplates > 0}
+	#{if contTemplates == 1}
+		<p id="line"><b>1</b> template configurado.</p>
+	#{/if}
+	#{else}
+		<p id="line"><b>&{contTemplates}</b> templates configurados.</p>
+	#{/else}
+#{/if}

@@ -1,0 +1,20 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	var selectActionStates = #{jsAction @CEPController.getStatesByCountryId(':countryId') /};
+   	$('#object_stateId').load(
+  		selectActionStates({countryId: '1'})
+   	);
+   	$('#object_stateId').change(function() {
+		var elementState = document.getElementById("object_stateId");
+		var stateIdValue = elementState.value;
+		var selectActionCities = #{jsAction @CEPController.getCitiesByCountryIdAndStateId(':stateId') /};
+    	$('#object_cityId').load(
+    		selectActionCities({stateId: stateIdValue})
+    		if (document.getElementById("auxStates") != '') {
+		   		var aux = document.getElementById("auxStates").value;
+		   		$("#object_stateId option[value="+aux+"]").prop("selected","selected");
+		   	}
+    	);
+	});
+});
+</script>

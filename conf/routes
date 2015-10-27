@@ -1,0 +1,151 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+%{ctx = play.configuration.getProperty('apache.context', '')}%
+# Home page
+GET     ${ctx}/                                  		Application.index
+GET     ${ctx}/index2                           		Application.index2
+GET     ${ctx}/novo-usuario                     		Application.formNewUser
+POST    ${ctx}/novo-usuario                      		Application.formNewUser
+GET     ${ctx}/novo			                     		Application.newAccount
+POST    ${ctx}/novo			       				 		Application.saveNewAccount
+POST    ${ctx}/primeiros-passos    				 		Application.saveNewInstitution
+
+# SendSMS routes
+GET     ${ctx}/painel/enviar-sms/visitantes							SendSMS.smsVisitors
+GET     ${ctx}/painel/enviar-sms/membros							SendSMS.smsMembers
+POST	${ctx}/painel/sms-enviadas/visitantes						SendSMS.sendSMSVisitors
+GET		${ctx}/painel/sms-enviadas/visitantes						SendSMS.sendSMSVisitors
+POST	${ctx}/painel/sms-enviadas/membros							SendSMS.sendSMSMembers
+GET		${ctx}/painel/sms-enviadas/membros							SendSMS.sendSMSMembers
+
+# ConfigureTemplateCRUD routes
+GET		${ctx}/painel/template-1							ConfigureTemplateCRUD.template1
+GET		${ctx}/painel/visualizar/ex/template1				ConfigureTemplateCRUD.templateExample1
+GET		${ctx}/painel/visualizar/ex/template2				ConfigureTemplateCRUD.templateExample2
+POST	${ctx}/painel/visualizar/{template}					ConfigureTemplateCRUD.viewTemplate
+POST	${ctx}/painel/visualizar/{template}					ConfigureTemplateCRUD.renderTemplate1
+GET		${ctx}/painel/visualizar/{template}					ConfigureTemplateCRUD.renderTemplate2
+
+# EmailMarketingCRUD routes
+GET		${ctx}/painel/e-mail-marketing/visitantes					EmailMarketingCRUD.emailMarketingVisitors
+GET		${ctx}/painel/e-mail-marketing/membros						EmailMarketingCRUD.emailMarketingMembers
+POST	${ctx}/painel/e-mails-enviados/visitantes					EmailMarketingCRUD.sendEmailVisitors
+GET		${ctx}/painel/e-mails-enviados/visitantes					EmailMarketingCRUD.sendEmailVisitors
+POST	${ctx}/painel/e-mails-enviados/membros						EmailMarketingCRUD.sendEmailMembers
+GET		${ctx}/painel/e-mails-enviados/membros						EmailMarketingCRUD.sendEmailMembers
+
+# VisitorsCRUD routes
+GET		${ctx}/painel/visitantes					VisitorsCRUD.list
+GET		${ctx}/painel/visitantes/novo				VisitorsCRUD.blank
+GET		${ctx}/painel/visitantes/{id}				VisitorsCRUD.show
+GET		${ctx}/painel/visitantes/{id}/{field}		VisitorsCRUD.attachment
+GET		${ctx}/painel/visitantes/{id}/editar		VisitorsCRUD.edit
+POST	${ctx}/painel/visitantes					VisitorsCRUD.create
+POST	${ctx}/painel/visitantes/{id}				VisitorsCRUD.save
+DELETE	${ctx}/painel/visitantes/{id}				VisitorsCRUD.delete
+
+# GroupsCRUD routes
+GET     ${ctx}/painel/filtered-members					MembersGroupCRUD.listMembersAutoComplete 					
+GET		${ctx}/painel/grupos-membros					MembersGroupCRUD.list
+GET		${ctx}/painel/grupos-membros/novo				MembersGroupCRUD.blank
+GET		${ctx}/painel/grupos-membros/{id}				MembersGroupCRUD.show
+GET		${ctx}/painel/grupos-membros/{id}/{field}		MembersGroupCRUD.attachment
+GET		${ctx}/painel/grupos-membros/{id}/editar		MembersGroupCRUD.edit
+POST	${ctx}/painel/grupos-membros					MembersGroupCRUD.create
+POST	${ctx}/painel/grupos-membros/{id}				MembersGroupCRUD.save
+DELETE	${ctx}/painel/grupos-membros/{id}				MembersGroupCRUD.delete
+
+# MembersCRUD routes
+GET     ${ctx}/painel/filtered-visitors						VisitorsGroupCRUD.listVisitorsAutoComplete 					
+GET		${ctx}/painel/grupos-visitantes						VisitorsGroupCRUD.list
+GET		${ctx}/painel/grupos-visitantes/novo				VisitorsGroupCRUD.blank
+GET		${ctx}/painel/grupos-visitantes/{id}				VisitorsGroupCRUD.show
+GET		${ctx}/painel/grupos-visitantes/{id}/{field}		VisitorsGroupCRUD.attachment
+GET		${ctx}/painel/grupos-visitantes/{id}/editar			VisitorsGroupCRUD.edit
+POST	${ctx}/painel/grupos-visitantes						VisitorsGroupCRUD.create
+POST	${ctx}/painel/grupos-visitantes/{id}				VisitorsGroupCRUD.save
+DELETE	${ctx}/painel/grupos-visitantes/{id}				VisitorsGroupCRUD.delete
+
+# EventsCRUD routes
+GET		${ctx}/painel/eventos						EventsCRUD.list
+GET		${ctx}/painel/eventos/novo					EventsCRUD.blank
+GET		${ctx}/painel/eventos/{id}					EventsCRUD.show
+GET		${ctx}/painel/eventos/{id}/{field}			EventsCRUD.attachment
+GET		${ctx}/painel/eventos/{id}/editar			EventsCRUD.edit
+POST	${ctx}/painel/eventos						EventsCRUD.create
+POST	${ctx}/painel/eventos/{id}					EventsCRUD.save
+DELETE	${ctx}/painel/eventos/{id}					EventsCRUD.delete
+
+# IntercessoresCRUD routes
+GET		${ctx}/painel/intercessores						IntercessorsCRUD.list
+GET		${ctx}/painel/intercessores/novo				IntercessorsCRUD.blank
+GET		${ctx}/painel/intercessores/{id}				IntercessorsCRUD.show
+GET		${ctx}/painel/intercessores/{id}/{field}		IntercessorsCRUD.attachment
+GET		${ctx}/painel/intercessores/{id}/editar			IntercessorsCRUD.edit
+POST	${ctx}/painel/intercessores						IntercessorsCRUD.create
+POST	${ctx}/painel/intercessores/{id}				IntercessorsCRUD.save
+DELETE	${ctx}/painel/intercessores/{id}				IntercessorsCRUD.delete
+
+# ConfigureTemplateCRUD routes
+GET		${ctx}/painel/configurar-template						ConfigureTemplateCRUD.list
+GET		${ctx}/painel/configurar-template/novo					ConfigureTemplateCRUD.blank
+GET		${ctx}/painel/configurar-template/{id}					ConfigureTemplateCRUD.show
+GET		${ctx}/painel/configurar-template/{id}/{field}			ConfigureTemplateCRUD.attachment
+GET		${ctx}/painel/configurar-template/{id}/editar			ConfigureTemplateCRUD.edit
+POST	${ctx}/painel/configurar-template						ConfigureTemplateCRUD.create
+POST	${ctx}/painel/configurar-template/{id}					ConfigureTemplateCRUD.save
+DELETE	${ctx}/painel/configurar-template/{id}					ConfigureTemplateCRUD.delete
+
+# ConfigurationCRUD routes
+GET		${ctx}/painel/instituicao						InstitutionCRUD.list
+GET		${ctx}/painel/instituicao/novo					InstitutionCRUD.blank
+GET		${ctx}/painel/instituicao/{id}					InstitutionCRUD.show
+GET		${ctx}/painel/instituicao/{id}/{field}			InstitutionCRUD.attachment
+GET		${ctx}/painel/instituicao/{id}/editar			InstitutionCRUD.edit
+POST	${ctx}/painel/instituicao						InstitutionCRUD.create
+POST	${ctx}/painel/instituicao/{id}					InstitutionCRUD.save
+DELETE	${ctx}/painel/instituicao/{id}					InstitutionCRUD.delete
+
+# UsersCRUD routes
+GET		${ctx}/painel/meu-perfil						UsersCRUD.list
+GET		${ctx}/painel/meu-perfil/novo					UsersCRUD.blank
+GET		${ctx}/painel/meu-perfil/{id}					UsersCRUD.show
+GET		${ctx}/painel/meu-perfil/{id}/{field}			UsersCRUD.attachment
+GET		${ctx}/painel/meu-perfil/{id}/editar			UsersCRUD.edit
+POST	${ctx}/painel/meu-perfil						UsersCRUD.create
+POST	${ctx}/painel/meu-perfil/{id}					UsersCRUD.save
+DELETE	${ctx}/painel/meu-perfil/{id}					UsersCRUD.delete
+
+# MembersCRUD routes
+GET		${ctx}/painel/membros						MembersCRUD.list
+GET		${ctx}/painel/membros/novo					MembersCRUD.blank
+GET		${ctx}/painel/membros/{id}					MembersCRUD.show
+GET		${ctx}/painel/membros/{id}/{field}			MembersCRUD.attachment
+GET		${ctx}/painel/membros/{id}/editar			MembersCRUD.edit
+POST	${ctx}/painel/membros						MembersCRUD.create
+POST	${ctx}/painel/membros/{id}					MembersCRUD.save
+DELETE	${ctx}/painel/membros/{id}					MembersCRUD.delete
+
+# Administration
+GET     ${ctx}/primeiros-passos						Admin.firstStep
+GET     ${ctx}/painel/?	                      		Admin.index
+GET     ${ctx}/painel/{id}                     		Admin.form
+POST    ${ctx}/painel/{id}                     		Admin.save
+GET     ${ctx}/painel/new                        	Admin.form
+POST    ${ctx}/painel/new                        	Admin.save
+*       ${ctx}/painel                           	module:crud
+
+# Import Secure routes
+*      	${ctx}/                              module:secure
+
+# Ignore favicon requests
+GET    	${ctx}/favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     ${ctx}/public/                                staticDir:public
+
+# Catch all
+*       ${ctx}/{controller}/{action}                  {controller}.{action}
+
+

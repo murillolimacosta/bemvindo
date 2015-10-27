@@ -1,0 +1,92 @@
+#{extends 'CRUD/layout.html' /}
+#{set title:messages.get('crud.list.title', type.name) /}
+<meta charset="utf-8" />
+	<div class="col-lg-6">
+		#{crud.search /}
+	</div>
+	<div class="col-lg-6">
+		<a href="@{blank()}" class="btn btn-default" style="float: right">&{'crud.add', type.modelName}</a> 
+	</div>
+	<div class="col-lg-12 ${type.name}">
+        <div class="panel panel-default">
+        	<div class="panel-heading"></div>
+            <div class="panel-body">
+            	<div class="dataTable_wrapper">
+    				<div class="panel panel-default">
+						<div class="panel-body">
+							Exemplos: <a href="JavaScript:openPopup('@{ConfigureTemplateCRUD.templateExample1}');">Modelo 1</a>, <a href="JavaScript:openPopup('@{ConfigureTemplateCRUD.templateExample2}');">Modelo 2</a>
+						</div>
+					</div>
+			        #{crud.table fields:['postedAt', 'title1', 'template', 'isActive', 'action']}
+			        	#{crud.custom 'postedAt'}
+				       		<a href="@{ConfigureTemplateCRUD.show(object.id)}">
+				            	${object.postedAt.format("dd/MM/yyyy HH'h'mm")}
+				            </a>
+				        #{/crud.custom}
+			        	#{crud.custom 'title1'}
+				       		<a href="@{ConfigureTemplateCRUD.show(object.id)}">
+				            	${object.title1.raw()}
+				            </a>
+				        #{/crud.custom}
+			        	#{crud.custom 'template'}
+				       		<a href="@{ConfigureTemplateCRUD.show(object.id)}">
+				            	${object.template}
+				            </a>	
+				        #{/crud.custom}
+			        	#{crud.custom 'isActive'}
+					        #{if object.isActive}
+					       		<a href="@{ConfigureTemplateCRUD.show(object.id)}">
+						            ${object.isActive='Sim'}
+					            </a>
+						    #{/if}
+						    #{else} 
+				    	   		<a href="@{ConfigureTemplateCRUD.show(object.id)}">
+							    	${object.isActive='Não'}
+				            	</a>
+				            #{/else}
+				        #{/crud.custom}
+				         #{crud.custom 'action'}
+				       		<a href="@{ConfigureTemplateCRUD.show(object.id)}" class="btn btn-default" title="Editar"><i class="fa fa-edit"></i></a>
+				       		<a href="JavaScript:openPopup('@{ConfigureTemplateCRUD.viewTemplate(object.id)}');" class="btn btn-default" title="Visualizar"><i class="fa fa-search"></i></a>
+				        #{/crud.custom}
+				    #{/crud.table}
+   					<div class="alert alert-info alert-dismissable">
+						#{crud.pagination /}
+	   				</div>
+   				</div>
+   			</div>
+   		</div>
+   	</div>
+ 	<div class="col-lg-6">
+ 		&nbsp;
+	</div>
+ 	<div class="col-lg-6">
+	 	<div class="panel panel-default">
+		    <div class="panel-heading">
+		        Enviar
+		    </div>
+		    <div class="panel-body" style="float: right">
+		        <p>
+					<a href="@{EmailMarketingCRUD.emailMarketingVisitors}" class="btn btn-default">Visitantes</a>
+					<a href="@{EmailMarketingCRUD.emailMarketingMembers}" class="btn btn-default" >Membros</a> 
+	            </p>
+	        </div>
+	    </div>
+	</div>
+	<div class="col-lg-12">
+		&nbsp;
+	</div>
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+                responsive: true
+        });
+    });
+    </script>
+<script type="text/javascript">
+	function openPopup(url) {
+		popupWindow = window.open(
+			url,'popUpWindow','height=700,width=800,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=yes')
+	}
+</script>

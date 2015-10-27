@@ -1,0 +1,36 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<p id="line">&nbsp;</p>
+<table>
+	<thead>
+		<tr>
+			<th>Últimos membros</th>
+			<th width="30%">E-mail</th>
+			<th width="20%">Aniversário</th>
+			<th width="13%">Membro desde</th>
+			<th width="10%">Ativo</th>
+		</tr>
+	</thead>
+	<tbody>
+		#{list listMembers, as:'member'}
+			<tr>
+				<td><a href="/painel/membros">${member.getNameAndLastNameLimited()} </a></td>
+				<td><a href="/painel/membros">&{member.getEmailLimited()}</a></td>
+				<td><a href="/painel/membros">&{member.getBirthDate().format("dd/MM")}</a></td>
+				<td><a href="/painel/membros">&{member.getMemberSince().format("dd/MM/yyyy")}</a></td>
+				<td><a href="/painel/membros">&{member.isActive()}</a></td>
+			</tr>
+		#{/list}
+	</tbody>
+</table>
+
+#{if contMembers == 0}
+	<p id="line"><b>Nenhum</b> membro cadastrado.</p>
+#{/if}
+#{if contMembers > 0}
+	#{if contMembers == 1}
+		<p id="line"><b>1</b> membro cadastrado.</p>
+	#{/if}
+	#{else}
+		<p id="line"><b>&{contMembers}</b> membros cadastrados.</p>
+	#{/else}
+#{/if}

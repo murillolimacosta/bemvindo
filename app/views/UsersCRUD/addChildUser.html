@@ -1,0 +1,112 @@
+#{extends 'CRUD/layout.html' /} #{set title:messages.get('crud.blank.title', type.modelName) /}
+<meta charset="utf-8" />
+<div class="col-lg-12">
+	<div class="panel panel-default">
+		<div class="panel-heading">Editar</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-lg-6">
+					<form action="/painel/meu-perfil/3" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+						<input type="hidden" name="authenticityToken" value="6d1e05d8f9ca5f1813a2cb3632f7d1b852a36fb9">
+						<div class="form-group">
+							<input id="object_institutionId" class="" type="hidden" name="object.institutionId" value="14" size="50" />
+							<p class="help-block"></p>
+						</div>
+						<div class="form-group">
+							<label for="object_name"> Nome </label> <input id="object_name" class="form-control" type="text" name="object.name" value="Bob" size="50" />
+							<p class="help-block">Obrigatório.</p>
+						</div>
+						<div class="form-group">
+							<label for="object_lastName"> Sobrenome </label> <input id="object_lastName" class="form-control" type="text" name="object.lastName" value="da Silva" size="50" />
+							<p class="help-block">Obrigatório.</p>
+						</div>
+						<div class="form-group">
+							<label for="object_email"> E-mail </label> <input id="object_email" class="form-control" type="text" name="object.email" value="bob@gmail.com" size="50" />
+							<p class="help-block">Formato de e-mail válido: nome@provedor.com.br Obrigatório.</p>
+						</div>
+						<div class="form-group">
+							<label for="object_address"> Endereço </label> <input id="object_address" class="form-control" type="text" name="object.address" value="Rua P" size="50" />
+							<p class="help-block">Obrigatório.</p>
+						</div>
+						<div class="form-group">
+							<label for="object_complement"> Complemento: </label> <input id="object_complement" class="form-control" type="text" name="object.complement" value="Col&eacute;gio" size="50" />
+							<p class="help-block"></p>
+						</div>
+						<div class="form-group">
+							<label for="object_neighborhood"> Bairro </label> <input id="object_neighborhood" class="form-control" type="text" name="object.neighborhood" value="P&oacute;gresso" size="50" />
+							<p class="help-block">Obrigatório.</p>
+						</div>
+						<div class="form-group">
+							<label for="object_city"> Cidade </label> <input id="object_city" class="form-control" type="text" name="object.city" value="Monzarl&acirc;ndia" size="50" />
+							<p class="help-block">Obrigatório.</p>
+						</div>
+						<div class="form-group">
+							<label for="object_cep"> CEP </label> <input id="object_cep" class="form-control" type="text" name="object.cep" value="75-00000" size="50" />
+							<p class="help-block">Obrigatório.</p>
+						</div>
+						<div class="form-group">
+							<label for="object_state"> Estado </label> <input id="object_state" class="form-control" type="text" name="object.state" value="Goi&aacute;s" size="50" />
+							<p class="help-block">Obrigatório.</p>
+						</div>
+						<div class="form-group">
+							<label for="object_country"> País </label> <input id="object_country" class="form-control" type="text" name="object.country" value="Brasil" size="50" />
+							<p class="help-block">Obrigatório.</p>
+						</div>
+						<div class="form-group">
+							<label for="object_cpf"> CPF </label> <input id="object_cpf" class="form-control" type="text" name="object.cpf" value="310.171.143-66" size="50" />
+							<p class="help-block"></p>
+						</div>
+						<div class="form-group">
+							<label for="object_phone1"> Telefone 1 </label> <input id="object_phone1" class="form-control" type="text" name="object.phone1" value="(62) 92670199" size="50" />
+							<p class="help-block"></p>
+						</div>
+						<div class="form-group">
+							<label for="object_phone2"> Telefone 2 </label> <input id="object_phone2" class="form-control" type="text" name="object.phone2" value="" size="50" />
+							<p class="help-block"></p>
+						</div>
+						<div class="form-group">
+							<label for="object_phone3"> Telefone 3 </label> <input id="object_phone3" class="form-control" type="text" name="object.phone3" value="" size="50" />
+							<p class="help-block"></p>
+						</div>
+						<div class="form-group">
+							<label for="object_password"> Senha </label> <input id="object_password" class="" type="password" name="object.password" value="147741" size="50" class="form-control" />
+							<p class="help-block">Obrigatório.</p>
+						</div>
+						<div class="form-group">
+							<div class="checkbox">
+								<label for="object_isAdmin"> <input id="object_isAdmin" class="" type="checkbox" name="object.isAdmin" value="true" checked="true" /> Administrador
+								</label>
+							</div>
+							<input type="hidden" name="object.isAdmin" value="false" />
+							<p class="help-block"></p>
+						</div>
+						<div class="form-group">
+							<div class="checkbox">
+								<label for="object_isActive"> <input id="object_isActive" class="" type="checkbox" name="object.isActive" value="true" checked="true" /> Ativo
+								</label>
+							</div>
+							<input type="hidden" name="object.isActive" value="false" />
+							<p class="help-block"></p>
+						</div>
+						<div class="form-group">
+							<label for="object_licenseDate"> Vencimento </label> <input id="object_licenseDate" class="form-control " type="text" name="object.licenseDate" value="06/03/2015" size="10" />
+							<p class="help-block">Formato dd/MM/yyyy.</p>
+						</div>
+						<div class="form-group">
+							<label for="object_postedAt"> Data de publicação </label> <input id="object_postedAt" class="form-control " type="text" name="object.postedAt" value="06/03/2015" size="10" />
+							<p class="help-block">Formato dd/MM/yyyy.</p>
+						</div>
+						<div class="form-group" style="float: right">
+							<input type="submit" name="_save" value="Salvar" class="btn btn-default" /> <input type="submit" name="_saveAndContinue" value="Salvar e continuar editando" class="btn btn-default" />
+						</div>
+					</form>
+				</div>
+				<div class="col-lg-6">
+					<form action="/painel/meu-perfil/3?x-http-method-override=DELETE" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
+						<input type="hidden" name="authenticityToken" value="6d1e05d8f9ca5f1813a2cb3632f7d1b852a36fb9"> <input type="submit" class="btn btn-default" style="float: right" value="Deletar" />
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

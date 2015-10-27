@@ -1,0 +1,230 @@
+<html lang="${lang}">
+    <head>
+    	<meta charset="utf-8" />
+		#{set title:'E-mail Marketing - Membros' /}
+       	#{include 'includes/headCrud.html' /}
+    </head>
+    <body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <!-- Logo navbar -->
+           	#{include 'includes/logoNavBar.html' /}
+            <!-- Logo navbar -->
+            <!-- Menu Top Side -->
+           	#{include 'includes/menuPainelTop.html' /}
+            <!-- Menu Top Side -->
+            <!-- Menu Left Side -->
+           	#{include 'includes/menuPainelLeft.html' /}
+            <!-- Menu Left Side -->
+        </nav>
+        <div id="page-wrapper">
+			<div class="row">
+		         <div class="col-lg-12">
+		             <h1 class="page-header">E-mail Marketing - Membros</h1>
+		         </div>
+		         <!-- /.col-lg-12 -->
+		    </div>
+			<ol class="breadcrumb">
+			    <li><a href="@{CRUD.index()}">&{'crud.home'}</a></li>
+			    <li><a href="@{EmailMarketingCRUD.emailMarketingMembers()}">E-mail Marketing - Membros</a></li>
+			</ol>
+    		#{if flash.success}
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="alert alert-info alert-dismissable">${flash.success}</div>
+					</div>
+				</div>
+			#{/if}
+            #{if flash.error || error}
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="alert alert-danger alert-dismissable">${error ?: flash.error}</div>
+					</div>
+				</div>
+			#{/if}
+			<div class="row">
+				<div class="col-lg-12">
+				   	<div class="panel panel-default">
+				        <div class="panel-heading">
+				        	<button type="button" class="btn btn-default fa fa-bell" data-container="body" data-toggle="popover" data-placement="right" data-content="&{'sent.email.info'}">
+                               Dica
+                           </button>
+				        </div>
+				        <div class="panel-body">
+							#{form @EmailMarketingCRUD.sendEmailMembers(), id:'emailMarketing'}
+								<div class="col-lg-12">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<div class="form-group centralize">
+												<label for="template"> Escolher template: </label> 
+												#{select 'template',id:'selectTemplate', class: 'form-control', items:templates, valueProperty:'id', labelProperty:'title1' /}
+												<input type="hidden" name="template" value="" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<ul class="nav nav-tabs">
+											    <li class="active"><a id="a" href="#all" data-toggle="tab">Enviar a todos</a></li>
+											    <li><a id="b" href="#visitors" data-toggle="tab">Selecionar membros</a></li>
+											    <li><a id="c" href="#gender" data-toggle="tab">Enviar por gênero</a></li>
+											    <li><a id="e" href="#maritalStatus" data-toggle="tab">Enviar por estado civil</a></li>
+											</ul>
+							                <div class="tab-content">
+							                    <div class="tab-pane fade in active" id="all">
+							                   	 	<div class="row">
+				          								<div class="col-lg-6">
+									                    	<div class="form-group">
+										                        <h4></h4>
+										                        <p class="roundelement">
+										                         	<input type="hidden" id="boolAll" name="all" value="true" /> 
+										                            <button type="button" class="btn btn-default fa fa-bell" data-container="body" data-toggle="popover" data-placement="right" data-content="&{'validation.msgAllMembers'}">
+									                                    Dica
+									                                </button>
+								                                </p>
+							                    			</div>
+							                    		</div>
+							                    	</div>
+							                    </div>
+							                    <div class="tab-pane fade" id="visitors">
+							                    	<div class="row">
+				          								<div class="col-lg-6">
+									                    	<div class="form-group">
+										                        <h4></h4>
+																#{select 'members', id:'members', class:'form-control', items:members, valueProperty:'id', labelProperty:'toString', multiple:'yes', size:5} 
+																	<option name="empty"></option>
+																#{/select}
+										                        <input type="hidden" name="members" value="" /> 
+																<p class="roundelement">
+										                            <button type="button" class="btn btn-default fa fa-bell" data-container="body" data-toggle="popover" data-placement="right" data-content="&{'validation.msgMultiSelectMembers'}">
+									                                    Dica
+									                                </button>
+								                                </p>
+											                </div>
+									                	</div>
+								                	</div>
+								                </div>
+							                    <div class="tab-pane fade" id="gender">
+							                    	<div class="row">
+				               							<div class="col-lg-6">
+										                    <div class="form-group">
+										                        <h4></h4>
+										                   		#{select 'genderEnum', id:'genderEnum', class:'form-control', items:genderEnum, valueProperty:'id', labelProperty:'value', size:5, options:'genderEnum'}
+																	<option name="empty"></option>
+																#{/select}
+																<input type="hidden" name="genderEnum" value="" /> 
+																<p class="roundelement">
+										                            <button type="button" class="btn btn-default fa fa-bell" data-container="body" data-toggle="popover" data-placement="right" data-content="&{'validation.msgGenderSelectMembers'}">
+									                                    Dica
+									                                </button>
+								                                </p>
+										                    </div>
+									                    </div>
+								                    </div>
+							                    </div>
+							                    <div class="tab-pane fade" id="maritalStatus">
+							                    	<div class="row">
+				               							<div class="col-lg-6">
+									                   		<div class="form-group">
+										                        <h4></h4>
+										                        #{select 'maritalStatusEnum', id:'maritalStatusEnum', class:'form-control', items:maritalStatusEnum, valueProperty:'id', labelProperty:'value', size:5, options:'maritalStatusEnum'}
+																	<option name="empty"></option>
+																#{/select}
+																<input type="hidden" name="maritalStatusEnum" value="" />
+																<p class="roundelement">
+																	<button type="button" class="btn btn-default fa fa-bell" data-container="body" data-toggle="popover" data-placement="right" data-content="&{'validation.msgMaritalStatusSelectMembers'}">
+									                                    Dica
+									                                </button>
+								                                </p>
+									                    	</div>
+								                    	</div>
+							                    	</div>
+							                    </div>
+							                </div>
+						                </div>
+					                </div>
+				                </div>
+				               	<div class="col-lg-12">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<div class="form-group centralize">
+												#{field 'ageRange'}
+													<label for="ageRange">Filtrar por idade:</label> 
+													<input id="ageRange" type="text" class="form-control" name="ageRange"> 
+													#{ifError field.name}
+								        				<span class="error">${field.error.raw()}</span>
+								    				#{/ifError}
+													<p class="help-block">&{'validation.matchAge'}</p>
+												#{/field}
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<div class="form-group" style="float: right; margin: 0">
+												<input class="btn btn-default fa fa-bell" type="submit" style="float: right" name="_save" value="&{'btn.send'}" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<script type="text/javascript">
+									var a = document.getElementById("a");
+									var b = document.getElementById("b");
+									var c = document.getElementById("c");
+									var d = document.getElementById("d");
+									var e = document.getElementById("e");
+									$(a).click(function() {  
+					                 	document.getElementById("boolAll").value = "true";
+									});
+									$(b).click(function() {  
+					                 	document.getElementById("boolAll").value = "false";
+									});
+									$(c).click(function() {  
+					                 	document.getElementById("boolAll").value = "false";
+									});
+									$(d).click(function() {  
+					                 	document.getElementById("boolAll").value = "false";
+									});
+									$(e).click(function() {  
+					                 	document.getElementById("boolAll").value = "false";
+									});
+				               </script>
+								<script type="text/javascript">
+									$('body').on('click', function (e) {
+									    //did not click a popover toggle or popover
+									    if ($(e.target).data('toggle') !== 'popover'
+									        && $(e.target).parents('.popover.in').length === 0) { 
+									        $('[data-toggle="popover"]').popover('hide');
+									    }
+									});
+								</script>
+							#{/form}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading" style="text-align: center">
+							&{'project.name'} © Copyright 2015 - Versão: &{'project.version'}
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+       	 </div>
+        <!-- /#page-wrapper -->
+	</div>
+    <!-- /#wrapper -->
+    <!-- footerCrud -->
+ 	#{include 'includes/footerCrud.html' /}
+    <!-- footerCrud -->
+</body>
+
+</html>

@@ -1,0 +1,296 @@
+<html lang="${lang}">
+    <head>
+    	<meta charset="utf-8" />
+		#{set title:'Enviar SMS' /}
+       	#{include 'includes/headCrud.html' /}
+    </head>
+    <body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <!-- Logo navbar -->
+           	#{include 'includes/logoNavBar.html' /}
+            <!-- Logo navbar -->
+            <!-- Menu Top Side -->
+           	#{include 'includes/menuPainelTop.html' /}
+            <!-- Menu Top Side -->
+            <!-- Menu Left Side -->
+           	#{include 'includes/menuPainelLeft.html' /}
+            <!-- Menu Left Side -->
+        </nav>
+        <div id="page-wrapper">
+			<div class="row">
+		         <div class="col-lg-12">
+		             <h1 class="page-header">Enviar SMS - Visitantes</h1>
+		         </div>
+		         <!-- /.col-lg-12 -->
+		    </div>
+			<ol class="breadcrumb">
+			    <li><a href="@{CRUD.index()}">&{'crud.home'}</a></li>
+			    <li><a href="@{SendSMS.smsVisitors()}">Enviar SMS - Visitantes</a></li>
+			</ol>
+    		#{if flash.success}
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="alert alert-info alert-dismissable">${flash.success}</div>
+					</div>
+				</div>
+			#{/if}
+            #{if flash.error || error}
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="alert alert-danger alert-dismissable">${error ?: flash.error}</div>
+					</div>
+				</div>
+			#{/if}
+			<div class="row">
+				<div class="col-lg-12">
+				   	<div class="panel panel-default">
+				        <div class="panel-heading">
+				           <button type="button" class="btn btn-default fa fa-bell" data-container="body" data-toggle="popover" data-placement="right" data-content="&{'sent.sms.info'}">
+                               Dica
+                           </button>
+				        </div>
+				        <div class="panel-body">
+							#{form @SendSMS.sendSMSVisitors(), id:'sms'}
+								<div class="col-lg-12">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<ul class="nav nav-tabs">
+												<li class="active"><a id="a" href="#new-message" data-toggle="tab">Compor mensagem</a></li>
+										    	<li><a id="b" href="#existing-sms" data-toggle="tab">SMS pré-definida</a></li>
+										    </ul>
+										    <div class="tab-content">
+							                    <div class="tab-pane fade in active" id="new-message">
+							                   	 	<div class="row">
+				          								<div class="col-lg-12">
+				          									<h4></h4>
+															<div class="form-group centralize">
+																<label for="template"> Assunto</label> 
+				                                            	<input class="form-control">
+				                                            	<p class="form-control-static"></p>
+															</div>
+															<div class="form-group centralize">
+																<label for="template"> Descrição</label> 
+																<textarea class="form-control" rows="3" onkeyup="limitaTextarea(this.value)" id="texto"></textarea>
+				                                            	<p class="form-control-static" style="text-align: right">Caracteres restantes: <span id="contador">160</span></p>
+															</div>
+															<div class="form-group centralize">
+																<input type="checkbox" id="reuse" name="reuse"></textarea>
+																<label for="reuse" style="margin: 0"> Reutilizar</label>
+																<input type="hidden" value="false" name="reuse">
+				                                            	<p class="help-block">Se marcado, esta mensagem será gravada como SMS pré-definida.</p>
+															</div>
+															<script type="text/javascript">
+																function charLimiter(value) {
+																	qtd = 160;
+																	total = value.length;
+																	if (total <= qtd) {
+																		rest = qtd - total;
+																		document.getElementById('counter').innerHTML = rest;
+																	} else {
+																		document.getElementById('message').value = value.substr(0, qtd);
+																	}
+																}
+															</script>
+														</div>
+													</div>
+												</div>
+												<div class="tab-pane fade" id="existing-sms">
+													<div class="row">
+				          								<div class="col-lg-12">
+									                        <h4></h4>
+															<div class="form-group centralize">
+																#{select 'sms',id:'selectSMS', class: 'form-control', items:sms, valueProperty:'id', labelProperty:'subject' /}
+																<input type="hidden" name="sms" value="" />
+		                                            			<p class="form-control-static"></p>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<ul class="nav nav-tabs">
+											    <li class="active"><a id="a" href="#all" data-toggle="tab">Enviar a todos</a></li>
+											    <li><a id="b" href="#visitors" data-toggle="tab">Selecionar visitantes</a></li>
+											    <li><a id="c" href="#gender" data-toggle="tab">Enviar por gênero</a></li>
+											    <li><a id="d" href="#events" data-toggle="tab">Enviar por evento</a></li>
+											    <li><a id="e" href="#maritalStatus" data-toggle="tab">Enviar por estado civil</a></li>
+											</ul>
+							                <div class="tab-content">
+							                    <div class="tab-pane fade in active" id="all">
+							                   	 	<div class="row">
+				          								<div class="col-lg-6">
+									                    	<div class="form-group">
+										                        <h4></h4>
+										                        <p class="roundelement">
+										                         	<input type="hidden" id="boolAll" name="all" value="true" /> 
+										                            <button type="button" class="btn btn-default fa fa-bell" data-container="body" data-toggle="popover" data-placement="right" data-content="&{'validation.msgAllVisitors'}">
+									                                    Dica
+									                                </button>
+								                                </p>
+							                    			</div>
+							                    		</div>
+							                    	</div>
+							                    </div>
+							                    <div class="tab-pane fade" id="visitors">
+							                    	<div class="row">
+				          								<div class="col-lg-6">
+									                    	<div class="form-group">
+										                        <h4></h4>
+																#{select 'visitors', id:'visitors', class:'form-control', items:visitors, valueProperty:'id', labelProperty:'toString', multiple:'yes', size:5, onclick:"disableInputsIfSelected(this);"} 
+																	<option name="empty"></option>
+																#{/select}
+										                        <input type="hidden" name="visitors" value="" /> 
+																<p class="roundelement">
+										                            <button type="button" class="btn btn-default fa fa-bell" data-container="body" data-toggle="popover" data-placement="right" data-content="&{'validation.msgMultiSelectVisitors'}">
+									                                    Dica
+									                                </button>
+								                                </p>
+											                </div>
+									                	</div>
+								                	</div>
+								                </div>
+							                    <div class="tab-pane fade" id="gender">
+							                    	<div class="row">
+				               							<div class="col-lg-6">
+										                    <div class="form-group">
+										                        <h4></h4>
+										                   		#{select 'genderEnum', id:'genderEnum', class:'form-control', items:genderEnum, valueProperty:'id', labelProperty:'value', size:5, options:'genderEnum'}
+																	<option name="empty"></option>
+																#{/select}
+																<input type="hidden" name="genderEnum" value="" /> 
+																<p class="roundelement">
+										                            <button type="button" class="btn btn-default fa fa-bell" data-container="body" data-toggle="popover" data-placement="right" data-content="&{'validation.msgGenderSelectVisitors'}">
+									                                    Dica
+									                                </button>
+								                                </p>
+										                    </div>
+									                    </div>
+								                    </div>
+							                    </div>
+							                    <div class="tab-pane fade" id="events">
+							                    	<div class="row">
+				               							<div class="col-lg-6">
+									                   		<div class="form-group">
+										                        <h4></h4>
+										                        #{select 'events', id:'events', class:'form-control', items:events, valueProperty:'id', labelProperty:'value', size:5, options:'eventEnum'}
+																	<option name="empty"></option>
+																#{/select}
+																<input type="hidden" name="events" value="" />
+																<p class="roundelement">
+																	<button type="button" class="btn btn-default fa fa-bell" data-container="body" data-toggle="popover" data-placement="right" data-content="&{'validation.msgEventSelect'}">
+									                                    Dica
+									                                </button>
+								                                </p>
+									                    	</div>
+								                    	</div>
+							                    	</div>
+							                    </div>
+							                    <div class="tab-pane fade" id="maritalStatus">
+							                    	<div class="row">
+				               							<div class="col-lg-6">
+									                   		<div class="form-group">
+										                        <h4></h4>
+										                        #{select 'maritalStatusEnum', id:'maritalStatusEnum', class:'form-control', items:maritalStatusEnum, valueProperty:'id', labelProperty:'value', size:5, options:'maritalStatusEnum'}
+																	<option name="empty"></option>
+																#{/select}
+																<input type="hidden" name="maritalStatusEnum" value="" />
+																<p class="roundelement">
+																	<button type="button" class="btn btn-default fa fa-bell" data-container="body" data-toggle="popover" data-placement="right" data-content="&{'validation.msgMaritalStatusSelectVisitors'}">
+									                                    Dica
+									                                </button>
+								                                </p>
+									                    	</div>
+								                    	</div>
+							                    	</div>
+							                    </div>
+							                </div>
+						                </div>
+					                </div>
+				                </div>
+				               	<div class="col-lg-12">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<div class="form-group centralize">
+												#{field 'ageRange'}
+													<label for="ageRange">Filtrar por idade</label> 
+													<input id="ageRange" type="text" class="form-control" name="ageRange"> 
+													#{ifError field.name}
+								        				<span class="error">${field.error.raw()}</span>
+								    				#{/ifError}
+													<p class="help-block">&{'validation.matchAge'}</p>
+												#{/field}
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<div class="form-group" style="float: right; margin: 0">
+												<input class="btn btn-default" type="submit" style="float: right" name="_save" value="&{'btn.send'}" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<script type="text/javascript">
+									var a = document.getElementById("a");
+									var b = document.getElementById("b");
+									var c = document.getElementById("c");
+									var d = document.getElementById("d");
+									var e = document.getElementById("e");
+									$(a).click(function() {  
+					                 	document.getElementById("boolAll").value = "true";
+									});
+									$(b).click(function() {  
+					                 	document.getElementById("boolAll").value = "false";
+									});
+									$(c).click(function() {  
+					                 	document.getElementById("boolAll").value = "false";
+									});
+									$(d).click(function() {  
+					                 	document.getElementById("boolAll").value = "false";
+									});
+									$(e).click(function() {  
+					                 	document.getElementById("boolAll").value = "false";
+									});
+				               	</script>
+								<script type="text/javascript">
+									$('body').on('click', function (e) {
+									    //did not click a popover toggle or popover
+									    if ($(e.target).data('toggle') !== 'popover'
+									        && $(e.target).parents('.popover.in').length === 0) { 
+									        $('[data-toggle="popover"]').popover('hide');
+									    }
+									});
+								</script>
+						#{/form}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading" style="text-align: center">
+							&{'project.name'} © Copyright 2015 - Versão: &{'project.version'}
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+       	 </div>
+        <!-- /#page-wrapper -->
+	</div>
+    <!-- /#wrapper -->
+    <!-- footerCrud -->
+ 	#{include 'includes/footerCrud.html' /}
+    <!-- footerCrud -->
+</body>
+
+</html>

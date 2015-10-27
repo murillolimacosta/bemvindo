@@ -1,0 +1,46 @@
+#{extends 'main.html' /} 
+#{set title:'Form' /} 
+#{form @save()}
+<input type="hidden" name="contactForm.id" value="${contactForm?.id}">
+
+<p class="field">
+	<label for="subject">Assunto:</label> 
+	<input type="text" id="subject"	name="contactFormForm.subject" value="${contactForm?.subject}">
+	<span class="error">${errors.forKey('contactForm.subject')}</span>
+</p>
+
+<p class="field">
+	<label for="email">E-mail:</label> 
+	<input type="text" id="email"	name="contactForm.email" value="${contactForm?.email}"> 
+	<span class="error">${errors.forKey('contactForm.email')}</span>
+</p>
+
+<p class="field">
+	<label for="firstname">Telefone:</label> 
+	<input type="text"	id="firstname" name="contactForm.phone" value="${contactForm?.phone}">
+	<span class="error">${errors.forKey('contactForm.phone')}</span>
+</p>
+
+<p class="field">
+	<label for="description">Descrição:</label> 
+	<input type="textarea" id="description"	name="contactForm.description" value="${contactForm?.description}"> 
+	<span class="error">${errors.forKey('contactForm.description')}</span>
+</p>
+
+<!-- <p class="field"> -->
+<!-- 	<label for="birthdate">Birth date:</label> -->
+<!--     <input type="text" id="birthdate" name="contactForm.birthdate" value="${contactForm?.birthdate?.format('yyyy-MM-dd')}"> -->
+<!--     <span class="error">${errors.forKey('contactForm.birthdate')}</span> -->
+<!-- </p> -->
+
+<p class="buttons">
+	<input type="submit" value="Save this contactForm" id="saveContact">
+</p>
+
+<script type="text/javascript" charset="${_response_encoding}">
+	$("#birthdate").datepicker({
+		dateFormat : 'yy-mm-dd',
+		showAnim : 'fadeIn'
+	})
+</script>
+#{/form}

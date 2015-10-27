@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="user.viewport" content="width=device-width, initial-scale=1.0">
+<meta name="user.description" content="Low cost Managed Linux VPS with 24x7 US-based Linux Admin support, free weekly backups, free website migration and 100% Uptime &gt;&gt;Since 2001&lt;&lt;">
+<meta name="user.author" content="RoseHosting">
+<link rel="apple-touch-icon" sizes="57x57" href="https://www.rosehosting.com/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="114x114" href="https://www.rosehosting.com/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="72x72" href="https://www.rosehosting.com/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="144x144" href="https://www.rosehosting.com/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="60x60" href="https://www.rosehosting.com/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="120x120" href="https://www.rosehosting.com/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="76x76" href="https://www.rosehosting.com/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="152x152" href="https://www.rosehosting.com/apple-touch-icon-152x152.png">
+<link rel="icon" type="image/png" href="https://www.rosehosting.com/favicon-196x196.png" sizes="196x196">
+<link rel="icon" type="image/png" href="https://www.rosehosting.com/favicon-160x160.png" sizes="160x160">
+<link rel="icon" type="image/png" href="https://www.rosehosting.com/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="https://www.rosehosting.com/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="https://www.rosehosting.com/favicon-32x32.png" sizes="32x32">
+<meta name="user.msapplication-TileColor" content="#000000">
+<meta name="user.msapplication-TileImage" content="/mstile-144x144.png">
+<meta name="user.keywords" content="ssd server, ssd vps hosting, vps, vps server, vps server hosting, vps hosting, virtual server, virtual private server, ubuntu server, centos server, debian server, linux server, fedora server">
+<meta property="twitter:card" content="Low cost Managed Linux VPS with 24x7 US-based Linux Admin support, free weekly backups, free website migration and 100% Uptime &gt;&gt;Since 2001&lt;&lt;">
+<meta property="twitter:site" content="RoseHosting">
+<meta property="twitter:title" content="Fully Managed SSD VPS, SSD VPS Server, Ultra-fast VPS Server, VPS Server, Linux VPS">
+<meta property="twitter:description" content="Low cost Managed Linux VPS with 24x7 US-based Linux Admin support, free weekly backups, free website migration and 100% Uptime &gt;&gt;Since 2001&lt;&lt;">
+<meta property="og:title" content="Fully Managed SSD VPS, SSD VPS Server, Ultra-fast VPS Server, VPS Server, Linux VPS">
+<meta property="og:description" content="Low cost Managed Linux VPS with 24x7 US-based Linux Admin support, free weekly backups, free website migration and 100% Uptime &gt;&gt;Since 2001&lt;&lt;">
+<meta property="og:site_name" content="RoseHosting">
+<meta property="og:image" content="https://www.rosehosting.com/img/rh-og-image.jpg'}">
+
+<title>BemVindo - Mantenha Seus Visitantes Próximos!</title>
+<!-- Bootstrap core CSS -->
+<link href="@{'public/stylesheets/combined.css'}" rel="stylesheet">
+
+<link charset="utf-8" class="lazyload" href="@{'public/stylesheets/style.css'}" rel="stylesheet" type="text/css">
+</head>
+
+<body class="rh">
+	<header>
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a href="/" class="navbar-brand"> <img alt="RoseHosting.com" src="@{'public/images/logo.png'}">
+
+					</a>
+					<button data-target="#navbar-main" data-toggle="collapse" type="button" class="navbar-toggle">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+					</button>
+				</div>
+				<div id="navbar-main" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/como-funciona">Como Funciona</a></li>
+						<li><a href="/contato">Contato</a></li>
+						<li class="login-btn"><a href="/login">Entrar</a></li>
+						<li class="visible-sm visible-md"><a href="@{Application.formNewUser()}">Criar Conta</a></li>
+						<li class="hidden-md"><div>
+								<a href="@{Application.formNewUser()}" class="btn btn-border-nav navbar-btn hidden-xs" id="btn-signup-top">Criar Conta</a>
+							</div></li>
+
+					</ul>
+
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<div class="offset"></div>
+
+
+	<div class="jumbotron home-page with-image">
+		<div class="container">
+			<h1 class="wow fadeInDown animated" style="visibility: visible;">
+				<b>Novo usuário</b>
+			</h1>
+
+			#{form @Application.formNewUser(), method:'POST', class:'form-inline'}
+				<div class="form-group">
+					<label class="sr-only" for="name">Nome</label> <input type="text" class="form-control" id="name" placeholder="Nome, ex.: João" name="user.name" required="" value="${flash['user.name']}">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="lastName">Sobrenome</label> <input type="text" class="form-control" id="lastName" placeholder="Sobrenome, ex.: Silva Sauro" name="user.lastName" required="" value="${flash['user.lastName']}">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="email">E-mail</label> <input type="email" class="form-control" id="email" placeholder="E-mail" name="user.email" required="" value="${flash['user.email']}">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="cpf">CPF</label> <input type="text" class="form-control" id="cpf" placeholder="CPF, ex.: 124.456.789-01" name="user.cpf" required="" value="${flash['user.cpf']}">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="cep">CEP</label> <input type="text" class="form-control" id="cep" placeholder="CEP, ex.: 75000-000" name="user.cep" required="" value="${flash['user.cep']}">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="address">Endereço</label> <input type="text" class="form-control" id="address" placeholder="Endereço" name="user.address" required="" value="${flash['user.address']}">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="complement">Complemento</label> <input type="text" class="form-control" id="complement" placeholder="Complemento" name="user.complement" required="" value="${flash['user.complement']}">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="neighborhood">Bairro</label> <input type="text" class="form-control" id="neighborhood" placeholder="Bairro" name="user.neighborhood" required="" value="${flash['user.neighborhood']}">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="city">Cidade</label> <input type="text" class="form-control" id="city" placeholder="Cidade" name="user.city" required="" value="${flash['user.city']}">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="state">Estado</label> <input type="text" class="form-control" id="state" placeholder="Estado" name="user.state" required="" value="${flash['user.state']}">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="country">País</label> <input type="text" class="form-control" id="country" placeholder="País" name="user.country" required="" value="${flash['user.country']}">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="phone1">Telefone Celular:</label> <input type="text" class="form-control" id="phone1" placeholder="Celular (88) 8888-8888" name="user.phone1" required="" value="${flash['user.phone1']}">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="phone2">Telefone Fixo:</label> <input type="text" class="form-control" id="phone2" placeholder="Telefone Fixo (88) 8888-8888" name="user.phone2" value="${flash['user.phone1']}">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="password">Senha</label> <input type="password" class="form-control" id="password" placeholder="Senha" name="user.password" required="" value="">
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="confirmPassword">Senha</label> <input type="password" class="form-control" id="confirmPassword" placeholder="Digite novamente a senha" name="confirmPassword" required="" value="">
+				</div>
+				<button type="submit" class="btn btn-yellow">Salvar</button>
+				#{if flash.error || error}
+					<p style="color: red">${flash.error}</p>
+				#{/if}
+				#{if flash.success}
+					<p style="color: #fff">${flash.success}</p>
+					<div class="home-signup">
+						<h2 class=" text-center">
+							<a class="inline-link" href="/login">Entrar</a>
+						</h2>
+					</div>
+				#{/if}
+			#{/form}
+		</div>
+	</div>
+
+	<!-- Include  Modals  -->
+	<div class="modal fade" id="managedModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content"></div>
+		</div>
+	</div>
+	<div class="modal fade" id="migrationModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content"></div>
+		</div>
+	</div>
+
+	<footer class="main-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+
+					<div class="col-md-2 col-sm-3 col-xs-6">
+						<ul class="list-unstyled">
+						</ul>
+					</div>
+
+					<div class="col-md-2 col-sm-3 col-xs-6">
+						<ul class="list-unstyled">
+						</ul>
+					</div>
+					<div class="col-md-2 col-sm-3 col-xs-6">
+						<ul class="list-unstyled">
+						</ul>
+					</div>
+					<div class="col-md-2 col-sm-3 col-xs-6">
+						<ul class="list-unstyled">
+						</ul>
+					</div>
+					<div class="col-md-2 col-sm-3 col-xs-6">
+						<ul class="list-unstyled">
+						</ul>
+					</div>
+					<div class="col-md-2 col-sm-3 col-xs-6">
+						<ul class="social-links list-unstyled">
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<!-- END ROW -->
+			<hr>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="col-sm-6 tos-links">
+						<ul class="list-inline">
+							<li><a class="inline-link footer-policy" href="/">Termos de serviço e política</a></li>
+						</ul>
+
+					</div>
+					<div class="col-sm-6 tos-links">
+						<p class="muted pull-right">
+							<a class="inline-link footer-policy" href="/">BemVindo!</a> © 2015
+						</p>
+					</div>
+				</div>
+			</div>
+			<!-- END ROW -->
+
+		</div>
+		<!-- END CONTAINER -->
+	</footer>
+</body>
+</html>

@@ -1,0 +1,13 @@
+#{field 'object.' + _name}
+    <label for="${field.id}">
+        &{_name}
+    </label>
+    <div id="sandbox-container">
+	    <div class="input-group date">
+	    	<input id="${field.id}" class="form-control ${field.errorClass}" type="text" name="${field.name}" value="${_value?.format()}" size="10"  /><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+		</div>
+	</div>
+    #{ifError field.name}
+        <span class="error">${field.error.raw()}</span>
+    #{/ifError}
+#{/field}
