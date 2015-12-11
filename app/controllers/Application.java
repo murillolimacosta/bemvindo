@@ -37,8 +37,7 @@ public class Application extends Controller {
 			if (!validateForm(user, confirmPassword)) {
 				user.password = "";
 				confirmPassword = "";
-				GenderEnum[] genderEnum = GenderEnum.values();
-				render("@newAccount", user, genderEnum);
+				render("@newAccount", user);
 				return;
 			} else {
 				user.setAdmin(true);
@@ -48,7 +47,8 @@ public class Application extends Controller {
 				user.save();
 				flash.clear();
 				validation.errors().clear();
-				flash.success("BemVindo! " + user.getName() + ", clique abaixo para acessar o sistema.", "");
+				flash.success("Sucesso! Quase lá, " + user.getName() + "! Para entrar, preencha os campos abaixo. :)", "");
+				redirect("/login");
 			}
 		}
 		render("@newAccount");
@@ -111,6 +111,29 @@ public class Application extends Controller {
 		validation.required(user.getLastName()).message("Favor, insira o seu sobrenome.").key("user.lastName");
 		validation.required(user.getEmail()).message("Favor, insira o seu e-mail.").key("user.email");
 		validation.email(user.getEmail()).message("Favor, insira o seu e-mail no formato nome@provedor.com.br.").key("user.email");
+		validation.isTrue(User.verifyByEmail(user.getEmail()) == null).message("Já existe um usuário com este e-mail.").key("user.email");
+		validation.required(user.getPassword()).message("Favor, insira uma senha.").key("user.password");
+		validation.required(confirmPassword).message("Favor, digite novamente a senha.").key("confirmPassword");
+		validation.isTrue(validatePassword(user.getPassword(), confirmPassword)).message("As senhas digitadas devem ser iguais.").key("confirmPassword");
+		params.flash();
+		validation.keep();
+		if (!validation.hasErrors())
+			ret = true;
+		else {
+			for (play.data.validation.Error error : validation.errors()) {
+				System.out.println(error.getKey() + " " + error.message());
+			}
+		}
+		return ret;
+	}
+
+	@SuppressWarnings("unused")
+	private static boolean validateFormBkp(User user, String confirmPassword) {
+		boolean ret = false;
+		validation.required(user.getName()).message("Favor, insira o seu nome.").key("user.name");
+		validation.required(user.getLastName()).message("Favor, insira o seu sobrenome.").key("user.lastName");
+		validation.required(user.getEmail()).message("Favor, insira o seu e-mail.").key("user.email");
+		validation.email(user.getEmail()).message("Favor, insira o seu e-mail no formato nome@provedor.com.br.").key("user.email");
 		validation.required(user.getBirthdate()).message("Favor, insira sua data de nascimento no formato: 01/01/2001.").key("user.birthdate");
 		validation.isTrue(User.verifyByEmail(user.getEmail()) == null).message("Já existe um usuário com este e-mail.").key("user.email");
 		validation.required(user.getCpf()).message("Favor, insira o seu CPF.").key("user.cpf");
@@ -127,6 +150,11 @@ public class Application extends Controller {
 		validation.keep();
 		if (!validation.hasErrors())
 			ret = true;
+		else {
+			for (play.data.validation.Error error : validation.errors()) {
+				System.out.println(error.getKey() + " " + error.message());
+			}
+		}
 		return ret;
 	}
 
@@ -158,12 +186,11 @@ public class Application extends Controller {
 	}
 
 	private static boolean validatePassword(String password, String confirmationPassword) {
+		boolean ret = false;
 		if (!Utils.isNullOrEmpty(password) && !Utils.isNullOrEmpty(confirmationPassword)) {
-			if (password.equals(confirmationPassword)) {
-				return true;
-			}
+			if (password.equals(confirmationPassword))
+				ret = true;
 		}
-		return false;
+		return ret;
 	}
-
 }

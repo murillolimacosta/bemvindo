@@ -7,7 +7,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE html>
 <html>
 <head>
-<title>BemVindo - Mantenha Seus Visitantes Próximos!</title>
+<title>Novo Usuário - BemVindo - Mantenha Seus Visitantes Próximos!</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Atom Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
@@ -70,21 +70,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<a id="formError" name="formError"></a>
 				#{form @Application.saveNewAccount(), method:'POST'}
 					<div class="contact-bottom">
-					#{ifErrors} 
-					   	<h1>Oops...</h1>
-						#{errors}
-							<input class="text" type="hidden" id="error" value="${error}" />
-						#{/errors} 
-					#{/ifErrors}
-					#{if flash.success}
-						<p>${flash.success}</p>
-						<a class="inline-link" href="/login">Entrar</a>
-					#{/if}
-					#{if flash.error}
-					   <p class="error">
-					      &{flash.error}
-					   </p>
-					#{/if}
+						#{ifErrors} 
+						   	<h1>Oops...</h1>
+							#{errors}
+								<input class="text" type="hidden" id="error" value="${error}" />
+							#{/errors} 
+						#{/ifErrors}
+						#{if flash.success}
+							<h3>${flash.success}</h3>
+							<h3><a class="inline-link" href="/login">Entrar</a></h3>
+						#{/if}
+						#{if flash.error}
+						   <p class="error">
+						      &{flash.error}
+						   </p>
+						#{/if}
 					</div>
 					<div class="contact-bottom">
 						<p class="er">#{error 'user.name' /}</p>
@@ -93,35 +93,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<input type="text" id="lastName" placeholder="Sobrenome, ex.: Silva Sauro" name="user.lastName"  value="${flash['user.lastName']}">
 						<p class="er">#{error 'user.email' /}</p>
 						<input type="text" id="email" placeholder="E-mail, ex.: nome@provedor.com.br" name="user.email"  value="${flash['user.email']}">
-	        			<p class="er">#{error 'user.birthdate' /}</p>
-						<input type="text" id="birthdate" class="date" placeholder="Data de nascimento, ex.: 01/01/2001" name="user.birthdate" value="${flash['user.birthdate']}"  />
-						<p class="er">#{error 'user.cpf' /}</p>
-						<input type="text" id="cpf" class="cpf" placeholder="CPF, ex.: 124.456.789-01" name="user.cpf"  value="${flash['user.cpf']}">
-						<p class="er">#{error 'user.gender' /}</p>
-						#{select id:'gender', name:'user.gender', items:genderEnum, valueProperty:'id', labelProperty:'name'}
-						#{/select}
-	       				<p>#{error 'registration.countryId' /}</p>
-						<input type="hidden"  id="countryId" placeholder="País" name="user.countryId"  value="1">
-						<p class="er">#{error 'user.stateId' /}</p>
-						#{select id:'stateId', name:'user.stateId', items:listStates, valueProperty:'id', labelProperty:'name'}
-							<option value="0" selected="selected">Estado</option>						
-						#{/select}
-						<p class="er">#{error 'user.cityId' /}</p>
-						#{select id:'cityId', name:'user.cityId', items:listCities, valueProperty:'id', labelProperty:'name'}
-							<option selected="${city != null ? 'selected' : ''}" value="${city != null ? city.id : ''}">${city != null ? city.name : 'Cidade'}</option>
-						#{/select}
-						<p class="er">#{error 'user.cep' /}</p>
-						<input type="text"  id="cep" class="cep" placeholder="CEP, ex.: 75000-000" name="user.cep"  value="${flash['user.cep']}">
-						<p class="er">#{error 'user.address' /}</p>
-						<input type="text"  id="address" placeholder="Endereço" name="user.address"  value="${flash['user.address']}">
-						<p class="er">#{error 'user.complement' /}</p>
-						<input type="text"  id="complement" placeholder="Complemento" name="user.complement"  value="${flash['user.complement']}">
-						<p class="er">#{error 'user.neighborhood' /}</p>
-						<input type="text"  id="neighborhood" placeholder="Bairro" name="user.neighborhood"  value="${flash['user.neighborhood']}">
-						<p class="er">#{error 'user.phone1' /}</p>
-						<input type="text"  id="phone1" class="sp_celphones" placeholder="Celular (88) 8888-8888" name="user.phone1"  value="${flash['user.phone1']}">
-						<p class="er">#{error 'user.phone2' /}</p>
-						<input type="text"  id="phone2" class="sp_celphones" placeholder="Telefone Fixo (88) 8888-8888" name="user.phone2" value="${flash['user.phone1']}">
 						<p class="er">#{error 'user.password' /}</p>
 						<input type="password"  id="password" placeholder="Senha" name="user.password"  value="">
 						<p class="er">#{error 'confirmPassword' /}</p>
@@ -131,24 +102,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<input type="submit" value="SALVAR" />
 						</div>
 					</div>
-					<input type="hidden"  id="aux" value="0">
-					<script type="text/javascript">
-						 $(document).ready(function() {
-							var selectActionStates = #{jsAction @CEPController.getStatesByCountryId(':countryId') /};
-					    	$('#stateId').load(
-					    		selectActionStates({countryId: '1'})
-					    	);
-							$('#stateId').change(function() {
-								var elementState = document.getElementById("stateId");
-								var stateIdValue = elementState.value;
-								var selectActionCities = #{jsAction @CEPController.getCitiesByCountryIdAndStateId(':stateId') /};
-						    	$('#cityId').load(
-						    		selectActionCities({stateId: stateIdValue})
-						    	);
-							});
-							$('<option value="0">Estado</option>').appendTo("#stateId");
-						});
-					</script>
 				#{/form}
 				</div>
 			</div>

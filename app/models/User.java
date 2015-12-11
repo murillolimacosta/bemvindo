@@ -32,37 +32,25 @@ public class User extends Model {
 	@Unique
 	public String email;
 	
-	@Required(message="Favor, insira sua data de nascimento no formato: 01/01/1901.")
 	public String birthdate;
 
-	@Required
-	@Min(1)
 	public long countryId;
 
-	@Required
-	@Min(1)
 	public long stateId;
 	
-	@Required(message="Favor, selecione o sexo.")
 	@Enumerated(EnumType.STRING)
 	public GenderEnum gender;
 
-	@Required
-	@Min(1)
 	public long cityId;
 
-	@Required
 	public String address;
 	
 	public String complement;
 	
-	@Required
 	public String neighborhood;
 	
-	@Required
 	public String cep;
 	
-	@Required
 	public String cpf;
 	
 	@Phone
