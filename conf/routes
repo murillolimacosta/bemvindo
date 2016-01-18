@@ -10,6 +10,7 @@ POST    ${ctx}/novo-usuario                      		Application.formNewUser
 GET     ${ctx}/novo			                     		Application.newAccount
 POST    ${ctx}/novo			       				 		Application.saveNewAccount
 POST    ${ctx}/primeiros-passos    				 		Application.saveNewInstitution
+POST    ${ctx}/painel/licenca-expirada    				 		Admin.expiredLicense
 
 # SendSMS routes
 GET     ${ctx}/painel/enviar-sms/visitantes							SendSMS.smsVisitors

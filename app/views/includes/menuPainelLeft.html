@@ -13,7 +13,7 @@
 <!-- 			</li> -->
 			<li><a href="@{Admin.index}"><i class="fa fa-home fa-fw"></i> Início</a></li>
 			
-			<li style="display: ${session.get("hasinst") == '0' ? 'none' : 'block'};">
+			<li style="display: ${session.get("enableUser") == 'false' ? 'none' : 'block'};">
 				<a href="#"><i class="fa fa-edit fa-fw"></i> Cadastrar<span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level">
 					<li><a href="@{VisitorsCRUD.list}">Visitantes</a></li>
@@ -22,25 +22,25 @@
 				</ul>
 			</li>
 			
-			<li style="display: ${session.get("hasinst") == '0' ? 'none' : 'block'};"><a href="@{EventsCRUD.list}"><i class="fa fa-glass fa-fw"></i> Eventos</a></li>
+			<li style="display: ${session.get("enableUser") == 'false' ? 'none' : 'block'};"><a href="@{EventsCRUD.list}"><i class="fa fa-glass fa-fw"></i> Eventos</a></li>
 			
-			<li style="display: ${session.get("hasinst") == '0' ? 'none' : 'block'};"><a href="#"><i class="fa fa-group fa-fw"></i> Grupos<span class="fa arrow"></span></a>
+			<li style="display: ${session.get("enableUser") == 'false' ? 'none' : 'block'};"><a href="#"><i class="fa fa-group fa-fw"></i> Grupos<span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level">
 					<li><a href="@{VisitorsGroupCRUD.list}">Visitantes</a></li>
 					<li><a href="@{MembersGroupCRUD.list}">Membros</a></li>
 				</ul>
 			</li>
 			
-			<li style="display: ${session.get("hasinst") == '0' ? 'none' : 'block'};"><a href="@{ConfigureTemplateCRUD.list}"><i class="fa fa-list-alt fa-fw"></i> Configurar Templates</a></li>
+			<li style="display: ${session.get("enableUser") == 'false' ? 'none' : 'block'};"><a href="@{ConfigureTemplateCRUD.list}"><i class="fa fa-list-alt fa-fw"></i> Configurar Templates</a></li>
 			
-			<li style="display: ${session.get("hasinst") == '0' ? 'none' : 'block'};"><a href="#"><i class="fa fa-send-o fa-fw"></i> Enviar E-mail<span class="fa arrow"></span></a>
+			<li style="display: ${session.get("enableUser") == 'false' ? 'none' : 'block'};"><a href="#"><i class="fa fa-send-o fa-fw"></i> Enviar E-mail<span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level">
 					<li><a href="@{EmailMarketingCRUD.emailMarketingVisitors}">Visitantes</a></li>
 					<li><a href="@{EmailMarketingCRUD.emailMarketingMembers}">Membros</a></li>
 				</ul>
 			</li>
 			
-			<li style="display:  ${session.get("hasinst") == '0' ? 'none' : 'block'};"><a href="#"><i class="fa fa-envelope-o fa-fw"></i> Enviar SMS<span class="fa arrow"></span></a>
+			<li style="display:  ${session.get("enableUser") == 'false' ? 'none' : 'block'};"><a href="#"><i class="fa fa-envelope-o fa-fw"></i> Enviar SMS<span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level">
 					<li><a href="@{SendSMS.smsVisitors}">Visitantes</a></li>
 					<li><a href="@{SendSMS.smsMembers}">Membros</a></li>

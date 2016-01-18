@@ -34,7 +34,7 @@ public class Security extends Secure.Security {
 	static void connect(User user) {
 		session.put("logged", user.id);
 		// Verifica se o usuário já está vinculado a uma instituição
-		Admin.verifyIfUserHasInstitution(user);
+		Admin.enableUserConditions(user);
 	}
 
 	static User connectedUser() {

@@ -58,26 +58,27 @@ public class Application extends Controller {
 		UserInstitutionParameter userInstitutionParameter = Admin.getLoggedUserInstitution();
 		if (institution.getInstitution() != null) {
 			if (!validateForm(institution)) {
+				/* The user needs to create a institution */
 				User user = userInstitutionParameter.getUser();
 				render("@admin.firstStep", institution, user);
 				return;
 			} else {
-				// vincula o usuário a instituição
+				// Links the user to institution
 				institution.setUserId(userInstitutionParameter.getUser().getId());
 				institution.setPublishedId(userInstitutionParameter.getUser().getId());
 				institution.setPostedAt(new Date());
-				// concede 1 mês de gratuidade de uso do sistema
+				// Grants one month free to user
 				Calendar calendar = Calendar.getInstance();
 				calendar.add(Calendar.MONTH, 1);
 				institution.setLicenseDate(calendar.getTime());
 				institution.save();
-				// vincula a instituição ao usuário
+				// Links the institution to user
 				userInstitutionParameter.getUser().setInstitutionId(institution.getId());
 				userInstitutionParameter.getUser().save();
 				flash.clear();
 				validation.errors().clear();
 				flash.success("Instituição '" + institution.getInstitution() + "' criada com sucesso. Aproveite!", "");
-				Admin.verifyIfUserHasInstitution(userInstitutionParameter.getUser());
+				Admin.enableUserConditions(userInstitutionParameter.getUser());
 				Admin.index();
 			}
 		}

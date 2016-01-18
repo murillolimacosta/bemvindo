@@ -26,6 +26,13 @@ import util.UserInstitutionParameter;
 public class Admin extends Controller {
 	public static UserInstitutionParameter userInstitutionParameter = null;
 
+	static boolean enableMenu() {
+		if (userBelongsToInstitution() && validateLicenseDate()) {
+			return true;
+		}
+		return false;
+	}
+
 	@Before
 	static void setConnectedUser() {
 		if (Security.isConnected()) {
@@ -44,10 +51,6 @@ public class Admin extends Controller {
 		render(listCountries);
 	}
 
-	public static void form() {
-		render();
-	}
-
 	public static void save(User user) {
 		validation.valid(user);
 		if (validation.hasErrors()) {
@@ -62,6 +65,7 @@ public class Admin extends Controller {
 		if (connectedUser == null || connectedUser.getInstitutionId() == 0) {
 			Admin.firstStep();
 		} else {
+			/* Verify expiration license */
 			if (validateLicenseDate()) {
 				int contVisitors = Visitor.find("institutionId = " + connectedUser.getInstitutionId()).fetch().size();
 				int contTemplates = ConfigureTemplate.find("institutionId = " + connectedUser.getInstitutionId()).fetch().size();
@@ -70,7 +74,11 @@ public class Admin extends Controller {
 				List<Visitor> listVisitors = Visitor.find("institutionId = " + connectedUser.getInstitutionId() + " and isActive = true order by postedAt desc").fetch(5);
 				List<ConfigureTemplate> listTemplates = ConfigureTemplate.find("institutionId = " + connectedUser.getInstitutionId() + " and isActive = true order by postedAt desc").fetch(5);
 				List<Member> listMembers = Member.find("institutionId = " + connectedUser.getInstitutionId() + " and isActive = true order by postedAt desc").fetch(5);
+				Admin.enableUserConditions(connectedUser);
 				render(listVisitors, listTemplates, contVisitors, contTemplates, contMembers, listMembers, contIntercessors, connectedUser);
+			} else {
+				/* Redirect to page of information about expired license */
+				render("@admin.expiredLicense", connectedUser);
 			}
 		}
 	}
@@ -109,11 +117,11 @@ public class Admin extends Controller {
 		redirect(request.controller + ".show", object._key());
 	}
 
-	protected static void verifyIfUserHasInstitution(User user) {
-		if (user.getInstitutionId() > 0) {
-			session.put("hasinst", "1");
+	protected static void enableUserConditions(User user) {
+		if (enableMenu()) {
+			session.put("enableUser", "true");
 		} else {
-			session.put("hasinst", "0");
+			session.put("enableUser", "false");
 		}
 		return;
 	}
@@ -126,6 +134,13 @@ public class Admin extends Controller {
 	public static Institution getLoggedInstitution() {
 		long institutionId = getLoggedUser().getInstitutionId();
 		return institutionId == 0 ? null : (Institution) Institution.findById(institutionId);
+	}
+
+	private static boolean userBelongsToInstitution() {
+		if (getLoggedInstitution() == null) {
+			return false;
+		}
+		return true;
 	}
 
 	public static UserInstitutionParameter getLoggedUserInstitution() {
