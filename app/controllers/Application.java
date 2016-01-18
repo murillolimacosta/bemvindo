@@ -58,7 +58,8 @@ public class Application extends Controller {
 		UserInstitutionParameter userInstitutionParameter = Admin.getLoggedUserInstitution();
 		if (institution.getInstitution() != null) {
 			if (!validateForm(institution)) {
-				render("@admin.firstStep", institution, userInstitutionParameter.getUser());
+				User user = userInstitutionParameter.getUser();
+				render("@admin.firstStep", institution, user);
 				return;
 			} else {
 				// vincula o usuário a instituição
