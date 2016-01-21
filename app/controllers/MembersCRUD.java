@@ -65,10 +65,11 @@ public class MembersCRUD extends CRUD {
 		Constructor<?> constructor = type.entityClass.getDeclaredConstructor();
 		constructor.setAccessible(true);
 		Model object = (Model) constructor.newInstance();
+		List<State> listStates = State.find("countryId = 1 order by name asc").fetch();
 		try {
-			render(type, object);
+			render(type, object, listStates);
 		} catch (TemplateNotFoundException e) {
-			render("MembersCRUD/blank.html", type, object);
+			render("MembersCRUD/blank.html", type, object, listStates);
 		}
 	}
 

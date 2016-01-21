@@ -74,7 +74,6 @@ public class Admin extends Controller {
 				List<Visitor> listVisitors = Visitor.find("institutionId = " + connectedUser.getInstitutionId() + " and isActive = true order by postedAt desc").fetch(5);
 				List<ConfigureTemplate> listTemplates = ConfigureTemplate.find("institutionId = " + connectedUser.getInstitutionId() + " and isActive = true order by postedAt desc").fetch(5);
 				List<Member> listMembers = Member.find("institutionId = " + connectedUser.getInstitutionId() + " and isActive = true order by postedAt desc").fetch(5);
-				Admin.enableUserConditions(connectedUser);
 				render(listVisitors, listTemplates, contVisitors, contTemplates, contMembers, listMembers, contIntercessors, connectedUser);
 			} else {
 				/* Redirect to page of information about expired license */
