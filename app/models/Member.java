@@ -35,7 +35,7 @@ public class Member extends Model {
 	public String lastName;
 
 	@Enumerated(EnumType.STRING)
-	public GenderEnum gender = GenderEnum.Masculino;
+	public GenderEnum gender = GenderEnum.M;
 
 	@Enumerated(EnumType.STRING)
 	public MaritalStatusEnum maritalStatus = MaritalStatusEnum.Solteiro;

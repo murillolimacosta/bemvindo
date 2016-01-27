@@ -80,10 +80,12 @@ public class Institution extends Model {
 
 	@Hidden
 	public long publishedBy;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@As("yyyy-MM-dd HH:mm:ss")
 	public Date licenseDate = new Date();
+
+	public String key;
 
 	public Date getLicenseDate() {
 		return licenseDate;
@@ -111,8 +113,7 @@ public class Institution extends Model {
 
 	@PostLoad
 	public void postLoad() {
-		Institution institution = Institution.find(
-				"userId = " + Admin.getLoggedUserInstitution().getUser().getId()).first();
+		Institution institution = Institution.find("userId = " + Admin.getLoggedUserInstitution().getUser().getId()).first();
 		User user = User.findById(institution.getUserId());
 		user.setInstitutionId(institution.getId());
 		user.save();
@@ -323,12 +324,31 @@ public class Institution extends Model {
 	public void setPublishedId(long publishedBy) {
 		this.publishedBy = publishedBy;
 	}
-	
+
 	public static Institution verifyByCnpj(String cnpj) {
 		return find("byCnpj", cnpj).first();
 	}
-	
+
 	public static Institution verifyByEmail(String email) {
 		return find("byEmail", email).first();
+	}
+
+	public String getKey() {
+		if (this.key == null) {
+			setKey(Utils.randomKey());
+		}
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public long getPublishedBy() {
+		return publishedBy;
+	}
+
+	public void setPublishedBy(long publishedBy) {
+		this.publishedBy = publishedBy;
 	}
 }

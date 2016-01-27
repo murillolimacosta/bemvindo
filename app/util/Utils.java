@@ -1,14 +1,19 @@
 package util;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 import play.mvc.Controller;
 
 public class Utils extends Controller {
+	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm";
+
 	public static String formatToMoney(double price) {
 		NumberFormat formatter = new DecimalFormat("R$ #0.00");
 		return formatter.format(price);
@@ -91,7 +96,7 @@ public class Utils extends Controller {
 	public static boolean validateCPFOrCNPJ(String text) {
 		if (Utils.isNullOrEmpty(text)) {
 			return false;
-		} 
+		}
 		String str = text.trim();
 		str = str.replace(".", "");
 		str = str.replace("-", "");
@@ -115,17 +120,24 @@ public class Utils extends Controller {
 		return text;
 	}
 
-	public static void main(String[] args) {
-		// System.out.printf("CPF Valido:%s \n",
-		// validateCPFOrCNPJ("73640387104"));
-		// System.out.printf("CPF Valido:%s \n",
-		// validateCPFOrCNPJ("53.782.852/0001-44"));
-		String text = "asf jafldsjf alksdfj açsjlkdfj as";
-		System.out.println(substringText(text, 0, 33));
-	}
-
 	public static Date parseDate(String date, String format) throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat(format);
 		return formatter.parse(date);
+	}
+
+	public static String getCurrentDateTime() {
+		DateFormat dateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
+		Calendar cal = Calendar.getInstance();
+		return dateFormat.format(cal.getTime());
+	}
+
+	public static void main(String[] args) {
+		for (int i = 0; i < 1000; i++) {
+			System.out.println(randomKey());
+		}
+	}
+
+	public static String randomKey() {
+		return UUID.randomUUID().toString();
 	}
 }

@@ -9,7 +9,8 @@ import models.Event;
 import models.Member;
 import models.SMS;
 import models.Visitor;
-import notifiers.SMSService;
+import notifiers.SMSNotifier;
+import play.Play;
 import play.mvc.Controller;
 import util.Utils;
 import enumeration.GenderEnum;
@@ -406,7 +407,7 @@ public class SendSMS extends Controller {
 
 	private static boolean smsToVisitors(Visitor visitor, SMS sms) {
 		try {
-			SMSService.send(visitor.getCellphone(), sms.getSubject(), sms.getDescription());
+			SMSNotifier.send(visitor.getCellphone(), sms.getSubject(), sms.getDescription());
 			return true;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -418,7 +419,7 @@ public class SendSMS extends Controller {
 
 	private static boolean smsToMembers(Member member, SMS sms) {
 		try {
-			SMSService.send(member.getCellphone(), sms.getSubject(), sms.getDescription());
+			SMSNotifier.send(member.getCellphone(), sms.getSubject(), sms.getDescription());
 			return true;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

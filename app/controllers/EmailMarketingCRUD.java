@@ -10,7 +10,7 @@ import models.EmailMarketing;
 import models.Event;
 import models.Member;
 import models.Visitor;
-import notifiers.Mails;
+import notifiers.MailNotifier;
 import play.mvc.With;
 import util.Utils;
 import enumeration.GenderEnum;
@@ -416,9 +416,9 @@ public class EmailMarketingCRUD extends CRUD {
 			String id = Utils.split(",", idConfigureTemplate);
 			ConfigureTemplate template = ConfigureTemplate.findById(Long.valueOf(id));
 			if (template.getTemplate().toString().equals("Template1")) {
-				Mails.template1(visitor, template);
+				MailNotifier.template1(visitor, template);
 			} else if (template.getTemplate().toString().equals("Template2")) {
-				Mails.template2(visitor, template);
+				MailNotifier.template2(visitor, template);
 			}
 			return true;
 		} catch (Exception e) {
@@ -434,9 +434,9 @@ public class EmailMarketingCRUD extends CRUD {
 			String id = Utils.split(",", idConfigureTemplate);
 			ConfigureTemplate template = ConfigureTemplate.findById(Long.valueOf(id));
 			if (template.getTemplate().toString().equals("Template1")) {
-				Mails.template1(member, template);
+				MailNotifier.template1(member, template);
 			} else if (template.getTemplate().toString().equals("Template2")) {
-				Mails.template2(member, template);
+				MailNotifier.template2(member, template);
 			}
 			return true;
 		} catch (Exception e) {

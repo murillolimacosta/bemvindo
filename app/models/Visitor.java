@@ -38,7 +38,7 @@ public class Visitor extends Model {
 	public String lastName;
 
 	@Enumerated(EnumType.STRING)
-	public GenderEnum gender = GenderEnum.Masculino;
+	public GenderEnum gender = GenderEnum.M;
 
 	@Enumerated(EnumType.STRING)
 	public MaritalStatusEnum maritalStatus = MaritalStatusEnum.Solteiro;
@@ -48,6 +48,7 @@ public class Visitor extends Model {
 	public int age;
 
 	@Temporal(TemporalType.DATE)
+	@As("dd/MM/yyyy")
 	public Date birthDate;
 
 	@Required
@@ -77,6 +78,7 @@ public class Visitor extends Model {
 	public String phone;
 
 	@Temporal(TemporalType.DATE)
+	@As("dd/MM/yyyy")
 	public Date visitDay;
 
 	public String whoInvited;

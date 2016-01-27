@@ -14,18 +14,27 @@
 	    					#{crud.custom 'cep'}
 								<div class="form-group">
 									<label for="object_cep"> CEP </label>
+									#{ifError 'object.cep'}
+								        <label class="control-label-red" for="${object.cep}">#{error 'object.cep' /}</label>
+								    #{/ifError}
 									<input id="object_cep" class="form-control cep" type="text" size="50" name="object.cep" value="${object.cep}">
 								</div>
 							#{/crud.custom}
 	    					#{crud.custom 'phone'}
 								<div class="form-group">
 									<label for="object_phone"> Telefone </label>
+									#{ifError 'object.phone'}
+								        <label class="control-label-red" for="${object.phone}">#{error 'object.phone' /}</label>
+								    #{/ifError}
 									<input id="object_phone" class="form-control sp_celphones" type="text" size="50" name="object.phone" value="${object.phone}">
 								</div>
 							#{/crud.custom}
 	    					#{crud.custom 'cellphone'}
 								<div class="form-group">
 									<label for="object_cellphone"> Celular </label>
+									#{ifError 'object.cellphone'}
+								        <label class="control-label-red" for="${object.cellphone}">#{error 'object.cellphone' /}</label>
+								    #{/ifError}
 									<input id="object_cellphone" class="form-control sp_celphones" type="text" size="50" name="object.cellphone" value="${object.cellphone}">
 								</div>
 							#{/crud.custom}
@@ -69,6 +78,8 @@
 							#{/crud.custom}
 	    					#{crud.custom 'postedAt'}
 								<input id="object_postedAt" class="form-control " type="hidden" name="object.postedAt" />
+							#{/crud.custom}
+	    					#{crud.custom 'visitorGroup'}
 							#{/crud.custom}
 						#{/crud.form}
 						<div class="form-group" style="float: right">

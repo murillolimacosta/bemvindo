@@ -26,7 +26,7 @@ import enumeration.TemplateEnum;
 public class ConfigureTemplate extends Model {
 	@Required
 	@Enumerated(EnumType.STRING)
-	public TemplateEnum template = TemplateEnum.Template1;
+	public TemplateEnum template = TemplateEnum.T1;
 
 	@Required
 	public String title1;
