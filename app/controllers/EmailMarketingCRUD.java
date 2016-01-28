@@ -11,6 +11,9 @@ import models.Event;
 import models.Member;
 import models.Visitor;
 import notifiers.MailNotifier;
+
+import org.apache.commons.collections.CollectionUtils;
+
 import play.mvc.With;
 import util.Utils;
 import enumeration.GenderEnum;
@@ -19,6 +22,9 @@ import enumeration.MaritalStatusEnum;
 @CRUD.For(models.EmailMarketing.class)
 @With(Secure.class)
 public class EmailMarketingCRUD extends CRUD {
+
+	public static String STR_BLANK_MESSAGE = "Não há nada a enviar! Selecione ao menos um destinatário!";
+
 	public static void emailMarketingVisitors() {
 		List<Visitor> visitors = Visitor.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and email is not null and isActive = true order by name, lastname").fetch();
 		List<ConfigureTemplate> templates = ConfigureTemplate.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and isActive = true").fetch();
@@ -36,415 +42,306 @@ public class EmailMarketingCRUD extends CRUD {
 		render(members, templates, genderEnum, maritalStatusEnum);
 	}
 
-	public static void sendEmailVisitors(String template, boolean all, String visitors, String genderEnum, String ageRange, String events, String maritalStatusEnum) {
-		List<EmailMarketing> sentEmails = null;
-		// ~~~~ Enviar para todos os visitantes
+	public static void sendEmailVisitors(String idTemplate, boolean all, String visitors, String genderEnum, String ageRange, String events, String maritalStatusEnum) {
+		String output = "";
+		/* Enviar para todos os visitantes */
 		if (all) {
-			sentEmails = emailToAllVisitors(template);
-			if (sentEmails != null) {
-				render(sentEmails);
-				return;
-			}
-			// ~~~~ Enviar para visitantes selecionados
+			output = emailToAllVisitors(idTemplate);
+			render(output);
+			return;
+			/* Enviar para visitantes selecionados */
 		} else if (!Utils.isNullOrEmpty(visitors)) {
-			sentEmails = emailToSelectedVisitors(template, visitors);
-			if (sentEmails != null) {
-				render(sentEmails);
-				return;
-			}
-			// ~~~~ Enviar por sexo e faixa etária
+			output = emailToSelectedVisitors(idTemplate, visitors);
+			render(output);
+			return;
+			/* Enviar por sexo e faixa etária */
 		} else if (!Utils.isNullOrEmpty(genderEnum) && !Utils.isNullOrEmpty(ageRange)) {
 			if (validateAgeRange(ageRange.trim())) {
-				sentEmails = emailByVisitorGenderAndAgeRange(template, genderEnum, ageRange.trim());
-				if (sentEmails != null) {
-					render(sentEmails);
-					return;
-				}
+				output = emailByVisitorGenderAndAgeRange(idTemplate, genderEnum, ageRange.trim());
+				render(output);
+				return;
 			}
-			// ~~~~ Enviar por sexo apenas
+			/* Enviar por sexo apenas */
 		} else if (!Utils.isNullOrEmpty(genderEnum) && Utils.isNullOrEmpty(ageRange)) {
-			sentEmails = emailByVisitorGender(template, genderEnum);
-			if (sentEmails != null) {
-				render(sentEmails);
-				return;
-			}
+			output = emailByVisitorGender(idTemplate, genderEnum);
+			render(output);
+			return;
 		} else if (Utils.isNullOrEmpty(genderEnum) && !Utils.isNullOrEmpty(ageRange)) {
-			// ~~~~ Enviar por faixa etária apenas
+			/* Enviar por faixa etária apenas */
 			if (validateAgeRange(ageRange.trim())) {
-				sentEmails = emailByVisitorAgeRange(template, ageRange.trim());
-				if (sentEmails != null) {
-					render(sentEmails);
-					return;
-				}
-			}
-			// ~~~~ Enviar por evento apenas
-		} else if (!Utils.isNullOrEmpty(events) && Utils.isNullOrEmpty(ageRange)) {
-			sentEmails = emailByVisitorEvent(template, ageRange.trim());
-			if (sentEmails != null) {
-				render(sentEmails);
+				output = emailByVisitorAgeRange(idTemplate, ageRange.trim());
+				render(output);
 				return;
 			}
-			// ~~~~ Enviar por evento e faixa etária
+			/* Enviar por evento apenas */
+		} else if (!Utils.isNullOrEmpty(events) && Utils.isNullOrEmpty(ageRange)) {
+			output = emailByVisitorEvent(idTemplate, ageRange.trim());
+			render(output);
+			return;
+			/* Enviar por evento e faixa etária */
 		} else if (!Utils.isNullOrEmpty(events) && !Utils.isNullOrEmpty(ageRange)) {
 			if (validateAgeRange(ageRange.trim())) {
-				sentEmails = emailByVisitorEventAndAgeRange(template, events, ageRange.trim());
-				if (sentEmails != null) {
-					render(sentEmails);
-					return;
-				}
-			}
-			// ~~~~ Enviar por estado civil apenas apenas
-		} else if (!Utils.isNullOrEmpty(maritalStatusEnum) && Utils.isNullOrEmpty(ageRange)) {
-			sentEmails = emailByVisitorMaritalStatus(template, maritalStatusEnum);
-			if (sentEmails != null) {
-				render(sentEmails);
+				output = emailByVisitorEventAndAgeRange(idTemplate, events, ageRange.trim());
+				render(output);
 				return;
 			}
-			// ~~~~ Enviar por estado civil e faixa etária
+			/* Enviar por estado civil apenas apenas */
+		} else if (!Utils.isNullOrEmpty(maritalStatusEnum) && Utils.isNullOrEmpty(ageRange)) {
+			output = emailByVisitorMaritalStatus(idTemplate, maritalStatusEnum);
+			render(output);
+			return;
+			/* Enviar por estado civil e faixa etária */
 		} else if (!Utils.isNullOrEmpty(maritalStatusEnum) && !Utils.isNullOrEmpty(ageRange)) {
 			if (validateAgeRange(ageRange.trim())) {
-				sentEmails = emailByVisitorMaritalStatusAndAgeRange(template, maritalStatusEnum, ageRange.trim());
-				if (sentEmails != null) {
-					render(sentEmails);
-					return;
-				}
+				output = emailByVisitorMaritalStatusAndAgeRange(idTemplate, maritalStatusEnum, ageRange.trim());
+				render(output);
+				return;
 			}
 		}
 		emailMarketingVisitors();
 	}
 
-	public static void sendEmailMembers(String template, boolean all, String members, String genderEnum, String ageRange, String maritalStatusEnum) {
-		List<EmailMarketing> sentEmails = null;
-		// ~~~~ Enviar para todos os membros
+	public static void sendEmailMembers(String idTemplate, boolean all, String members, String genderEnum, String ageRange, String maritalStatusEnum) {
+		String output = null;
+		/* Enviar para todos os membros */
 		if (all) {
-			sentEmails = emailToAllMembers(template);
-			if (sentEmails != null) {
-				render(sentEmails);
-				return;
-			}
-			// ~~~~ Enviar para membros selecionados
+			output = emailToAllMembers(idTemplate);
+			render(output);
+			return;
+			/* Enviar para membros selecionados */
 		} else if (!Utils.isNullOrEmpty(members)) {
-			sentEmails = emailToSelectedMembers(template, members);
-			if (sentEmails != null) {
-				render(sentEmails);
-				return;
-			}
-			// ~~~~ Enviar por sexo e faixa etária
+			output = emailToSelectedMembers(idTemplate, members);
+			render(output);
+			return;
+			/* Enviar por sexo e faixa etária */
 		} else if (!Utils.isNullOrEmpty(genderEnum) && !Utils.isNullOrEmpty(ageRange)) {
 			if (validateAgeRange(ageRange.trim())) {
-				sentEmails = emailByMemberGenderAndAgeRange(template, genderEnum, ageRange.trim());
-				if (sentEmails != null) {
-					render(sentEmails);
-					return;
-				}
+				output = emailByMemberGenderAndAgeRange(idTemplate, genderEnum, ageRange.trim());
+				render(output);
+				return;
 			}
-			// ~~~~ Enviar por sexo apenas
+			/* Enviar por sexo apenas */
 		} else if (!Utils.isNullOrEmpty(genderEnum) && Utils.isNullOrEmpty(ageRange)) {
-			sentEmails = emailByMemberGender(template, genderEnum);
-			if (sentEmails != null) {
-				render(sentEmails);
-				return;
-			}
+			output = emailByMemberGender(idTemplate, genderEnum);
+			render(output);
+			return;
 		} else if (Utils.isNullOrEmpty(genderEnum) && !Utils.isNullOrEmpty(ageRange)) {
-			// ~~~~ Enviar por faixa etária apenas
+			/* Enviar por faixa etária apenas */
 			if (validateAgeRange(ageRange.trim())) {
-				sentEmails = emailByMemberAgeRange(template, ageRange.trim());
-				if (sentEmails != null) {
-					render(sentEmails);
-					return;
-				}
-			}
-			// ~~~~ Enviar por estado civil apenas apenas
-		} else if (!Utils.isNullOrEmpty(maritalStatusEnum) && Utils.isNullOrEmpty(ageRange)) {
-			sentEmails = emailByMemberMaritalStatus(template, maritalStatusEnum);
-			if (sentEmails != null) {
-				render(sentEmails);
+				output = emailByMemberAgeRange(idTemplate, ageRange.trim());
+				render(output);
 				return;
 			}
-			// ~~~~ Enviar por estado civil e faixa etária
+			/* Enviar por estado civil apenas apenas */
+		} else if (!Utils.isNullOrEmpty(maritalStatusEnum) && Utils.isNullOrEmpty(ageRange)) {
+			output = emailByMemberMaritalStatus(idTemplate, maritalStatusEnum);
+					render(output);
+			return;
+			/* Enviar por estado civil e faixa etária */
 		} else if (!Utils.isNullOrEmpty(maritalStatusEnum) && !Utils.isNullOrEmpty(ageRange)) {
 			if (validateAgeRange(ageRange.trim())) {
-				sentEmails = emailByMemberMaritalStatusAndAgeRange(template, maritalStatusEnum, ageRange.trim());
-				if (sentEmails != null) {
-					render(sentEmails);
-					return;
-				}
+				output = emailByMemberMaritalStatusAndAgeRange(idTemplate, maritalStatusEnum, ageRange.trim());
+				render(output);
+				return;
 			}
 		}
 		emailMarketingMembers();
 	}
 
-	private static List<EmailMarketing> emailToAllVisitors(String template) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailToAllVisitors(String idTemplate) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		List<Visitor> visitors = Visitor.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and email is not null and isActive = true").fetch();
-		for (Visitor visitor : visitors) {
-			if (emailToVisitors(visitor, template)) {
-				emailM = setEmailVisitor(visitor, template);
-				listEmail.add(emailM);
-			}
+		if (CollectionUtils.isNotEmpty(visitors)) {
+			return MailNotifier.sendMailVisitors(visitors, template);
 		}
-		return listEmail;
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailToAllMembers(String template) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailToAllMembers(String idTemplate) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		List<Member> members = Member.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and email is not null and isActive = true").fetch();
-		for (Member member : members) {
-			if (emailToMembers(member, template)) {
-				emailM = setEmailMember(member, template);
-				listEmail.add(emailM);
-			}
+		if (CollectionUtils.isNotEmpty(members)) {
+			return MailNotifier.sendMailMembers(members, template);
 		}
-		return listEmail;
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailToSelectedVisitors(String template, String visitors) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailToSelectedVisitors(String idTemplate, String visitors) {
+		List<Visitor> visitorsList = new ArrayList<Visitor>();
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		String v[] = visitors.split(Pattern.quote(","));
 		for (String str : v) {
 			if (!Utils.isNullOrEmpty(str)) {
 				String id = str.trim();
 				Visitor visitor = Visitor.findById(Long.valueOf(id));
-				if (!Utils.isNullOrEmpty(visitor.getEmail())) {
-					if (emailToVisitors(visitor, template)) {
-						emailM = setEmailVisitor(visitor, template);
-						listEmail.add(emailM);
-					}
-				}
+				visitorsList.add(visitor);
 			}
 		}
-		return listEmail;
+		if (CollectionUtils.isNotEmpty(visitorsList)) {
+			return MailNotifier.sendMailVisitors(visitorsList, template);
+		}
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailToSelectedMembers(String template, String members) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailToSelectedMembers(String idTemplate, String members) {
+		List<Member> membersList = new ArrayList<Member>();
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		String v[] = members.split(Pattern.quote(","));
 		for (String str : v) {
 			if (!Utils.isNullOrEmpty(str)) {
 				String id = str.trim();
 				Member member = Member.findById(Long.valueOf(id));
-				if (!Utils.isNullOrEmpty(member.getEmail())) {
-					if (emailToMembers(member, template)) {
-						emailM = setEmailMember(member, template);
-						listEmail.add(emailM);
-					}
-				}
+				membersList.add(member);
 			}
 		}
-		return listEmail;
+		if (CollectionUtils.isNotEmpty(membersList)) {
+			return MailNotifier.sendMailMembers(membersList, template);
+		}
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailByVisitorGenderAndAgeRange(String template, String genderEnum, String ageRange) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailByVisitorGenderAndAgeRange(String idTemplate, String genderEnum, String ageRange) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		String[] age = ageRange.trim().split("-");
 		String[] gender = genderEnum.split(Pattern.quote(","));
-		List<Visitor> visitors = Visitor.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and gender = '" + gender[0] + "' and age >= " + age[0] + " and age <= " + age[1] + " and email is not null and isActive = true").fetch();
-		for (Visitor visitor : visitors) {
-			if (emailToVisitors(visitor, template)) {
-				emailM = setEmailVisitor(visitor, template);
-				listEmail.add(emailM);
-			}
+		List<Visitor> visitors = Visitor.find(
+				"institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and gender = '" + gender[0] + "' and age >= " + age[0] + " and age <= " + age[1] + " and email is not null and isActive = true").fetch();
+		if (CollectionUtils.isNotEmpty(visitors)) {
+			return MailNotifier.sendMailVisitors(visitors, template);
 		}
-		return listEmail;
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailByMemberGenderAndAgeRange(String template, String genderEnum, String ageRange) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailByMemberGenderAndAgeRange(String idTemplate, String genderEnum, String ageRange) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		String[] age = ageRange.trim().split("-");
 		String[] gender = genderEnum.split(Pattern.quote(","));
-		List<Member> members = Member.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and gender = '" + gender[0] + "' and age >= " + age[0] + " and age <= " + age[1] + " and email is not null and isActive = true").fetch();
-		for (Member member : members) {
-			if (emailToMembers(member, template)) {
-				emailM = setEmailMember(member, template);
-				listEmail.add(emailM);
-			}
+		List<Member> members = Member.find(
+				"institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and gender = '" + gender[0] + "' and age >= " + age[0] + " and age <= " + age[1] + " and email is not null and isActive = true").fetch();
+		if (CollectionUtils.isNotEmpty(members)) {
+			return MailNotifier.sendMailMembers(members, template);
 		}
-		return listEmail;
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailByVisitorGender(String template, String genderEnum) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailByVisitorGender(String idTemplate, String genderEnum) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		String[] gender = genderEnum.split(Pattern.quote(","));
 		List<Visitor> visitors = Visitor.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and gender = '" + gender[0] + "' and email is not null and isActive = true").fetch();
-		for (Visitor visitor : visitors) {
-			if (emailToVisitors(visitor, template)) {
-				emailM = setEmailVisitor(visitor, template);
-				listEmail.add(emailM);
-			}
+		if (CollectionUtils.isNotEmpty(visitors)) {
+			return MailNotifier.sendMailVisitors(visitors, template);
 		}
-		return listEmail;
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailByMemberGender(String template, String genderEnum) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailByMemberGender(String idTemplate, String genderEnum) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		String[] gender = genderEnum.split(Pattern.quote(","));
 		List<Member> members = Member.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and gender = '" + gender[0] + "' and email is not null and isActive = true").fetch();
-		for (Member member : members) {
-			if (emailToMembers(member, template)) {
-				emailM = setEmailMember(member, template);
-				listEmail.add(emailM);
-			}
+		if (CollectionUtils.isNotEmpty(members)) {
+			return MailNotifier.sendMailMembers(members, template);
 		}
-		return listEmail;
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailByVisitorAgeRange(String template, String ageRange) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailByVisitorAgeRange(String idTemplate, String ageRange) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		String[] age = ageRange.trim().split("-");
 		List<Visitor> visitors = Visitor.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and age >= " + age[0] + " and age <= " + age[1] + " and email is not null and isActive = true").fetch();
-		for (Visitor visitor : visitors) {
-			if (emailToVisitors(visitor, template)) {
-				emailM = setEmailVisitor(visitor, template);
-				listEmail.add(emailM);
-			}
+		if (CollectionUtils.isNotEmpty(visitors)) {
+			return MailNotifier.sendMailVisitors(visitors, template);
 		}
-		return listEmail;
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailByMemberAgeRange(String template, String ageRange) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailByMemberAgeRange(String idTemplate, String ageRange) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		String[] age = ageRange.trim().split("-");
 		List<Member> members = Member.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and age >= " + age[0] + " and age <= " + age[1] + " and email is not null and isActive = true").fetch();
-		for (Member member : members) {
-			if (emailToMembers(member, template)) {
-				emailM = setEmailMember(member, template);
-				listEmail.add(emailM);
-			}
+		if (CollectionUtils.isNotEmpty(members)) {
+			return MailNotifier.sendMailMembers(members, template);
 		}
-		return listEmail;
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailByVisitorEvent(String template, String events) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailByVisitorEvent(String idTemplate, String events) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		List<Visitor> visitors = Visitor.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and eventDay_id = '" + events + "' and email is not null and isActive = true").fetch();
-		for (Visitor visitor : visitors) {
-			if (emailToVisitors(visitor, template)) {
-				emailM = setEmailVisitor(visitor, template);
-				listEmail.add(emailM);
-			}
+		if (CollectionUtils.isNotEmpty(visitors)) {
+			return MailNotifier.sendMailVisitors(visitors, template);
 		}
-		return listEmail;
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailByVisitorEventAndAgeRange(String template, String events, String ageRange) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailByVisitorEventAndAgeRange(String idTemplate, String events, String ageRange) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		String[] age = ageRange.trim().split("-");
-		List<Visitor> visitors = Visitor.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and eventDay_id = '" + events + "' and age >= " + age[0] + " and age <= " + age[1] + " and email is not null and isActive = true").fetch();
-		for (Visitor visitor : visitors) {
-			if (emailToVisitors(visitor, template)) {
-				emailM = setEmailVisitor(visitor, template);
-				listEmail.add(emailM);
-			}
+		List<Visitor> visitors = Visitor.find(
+				"institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and eventDay_id = '" + events + "' and age >= " + age[0] + " and age <= " + age[1] + " and email is not null and isActive = true").fetch();
+		if (CollectionUtils.isNotEmpty(visitors)) {
+			return MailNotifier.sendMailVisitors(visitors, template);
 		}
-		return listEmail;
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailByVisitorMaritalStatus(String template, String maritalStatusEnum) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailByVisitorMaritalStatus(String idTemplate, String maritalStatusEnum) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		String[] maritalStatus = maritalStatusEnum.split(Pattern.quote(","));
 		List<Visitor> visitors = Visitor.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and maritalStatus = '" + maritalStatus[0] + "' and email is not null and isActive = true").fetch();
-		for (Visitor visitor : visitors) {
-			if (emailToVisitors(visitor, template)) {
-				emailM = setEmailVisitor(visitor, template);
-				listEmail.add(emailM);
-			}
+		if (CollectionUtils.isNotEmpty(visitors)) {
+			return MailNotifier.sendMailVisitors(visitors, template);
 		}
-		return listEmail;
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailByMemberMaritalStatus(String template, String maritalStatusEnum) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailByMemberMaritalStatus(String idTemplate, String maritalStatusEnum) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		String[] maritalStatus = maritalStatusEnum.split(Pattern.quote(","));
 		List<Member> members = Member.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and maritalStatus = '" + maritalStatus[0] + "' and email is not null and isActive = true").fetch();
-		for (Member member : members) {
-			if (emailToMembers(member, template)) {
-				emailM = setEmailMember(member, template);
-				listEmail.add(emailM);
-			}
+		if (CollectionUtils.isNotEmpty(members)) {
+			return MailNotifier.sendMailMembers(members, template);
 		}
-		return listEmail;
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailByVisitorMaritalStatusAndAgeRange(String template, String maritalStatusEnum, String ageRange) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailByVisitorMaritalStatusAndAgeRange(String idTemplate, String maritalStatusEnum, String ageRange) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		String[] age = ageRange.trim().split("-");
 		String[] maritalStatus = maritalStatusEnum.split(Pattern.quote(","));
-		List<Visitor> visitors = Visitor.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and maritalStatus = '" + maritalStatus[0] + "' and age >= " + age[0] + " and age <= " + age[1] + " and email is not null and isActive = true")
-				.fetch();
-		for (Visitor visitor : visitors) {
-			if (emailToVisitors(visitor, template)) {
-				emailM = setEmailVisitor(visitor, template);
-				listEmail.add(emailM);
-			}
+		List<Visitor> visitors = Visitor.find(
+				"institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and maritalStatus = '" + maritalStatus[0] + "' and age >= " + age[0] + " and age <= " + age[1] + " and email is not null and isActive = true").fetch();
+		if (CollectionUtils.isNotEmpty(visitors)) {
+			return MailNotifier.sendMailVisitors(visitors, template);
 		}
-		return listEmail;
+		return STR_BLANK_MESSAGE;
 	}
 
-	private static List<EmailMarketing> emailByMemberMaritalStatusAndAgeRange(String template, String maritalStatusEnum, String ageRange) {
-		List<EmailMarketing> listEmail = new ArrayList<EmailMarketing>();
-		EmailMarketing emailM;
+	private static String emailByMemberMaritalStatusAndAgeRange(String idTemplate, String maritalStatusEnum, String ageRange) {
+		Long idTemp = Long.valueOf(Utils.split(",", idTemplate));
+		ConfigureTemplate template = ConfigureTemplate.findById(idTemp);
 		String[] age = ageRange.trim().split("-");
 		String[] maritalStatus = maritalStatusEnum.split(Pattern.quote(","));
-		List<Member> members = Member.find("institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and maritalStatus = '" + maritalStatus[0] + "' and age >= " + age[0] + " and age <= " + age[1] + " and email is not null and isActive = true")
-				.fetch();
-		for (Member member : members) {
-			if (emailToMembers(member, template)) {
-				emailM = setEmailMember(member, template);
-				listEmail.add(emailM);
-			}
+		List<Member> members = Member.find(
+				"institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " and maritalStatus = '" + maritalStatus[0] + "' and age >= " + age[0] + " and age <= " + age[1] + " and email is not null and isActive = true").fetch();
+		if (CollectionUtils.isNotEmpty(members)) {
+			return MailNotifier.sendMailMembers(members, template);
 		}
-		return listEmail;
-	}
-
-	private static boolean emailToVisitors(Visitor visitor, String idConfigureTemplate) {
-		try {
-			String id = Utils.split(",", idConfigureTemplate);
-			ConfigureTemplate template = ConfigureTemplate.findById(Long.valueOf(id));
-			if (template.getTemplate().toString().equals("Template1")) {
-				MailNotifier.template1(visitor, template);
-			} else if (template.getTemplate().toString().equals("Template2")) {
-				MailNotifier.template2(visitor, template);
-			}
-			return true;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println(e.getCause());
-			System.out.println(e.getStackTrace());
-			return false;
-		}
-	}
-
-	private static boolean emailToMembers(Member member, String idConfigureTemplate) {
-		try {
-			String id = Utils.split(",", idConfigureTemplate);
-			ConfigureTemplate template = ConfigureTemplate.findById(Long.valueOf(id));
-			if (template.getTemplate().toString().equals("Template1")) {
-				MailNotifier.template1(member, template);
-			} else if (template.getTemplate().toString().equals("Template2")) {
-				MailNotifier.template2(member, template);
-			}
-			return true;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println(e.getCause());
-			System.out.println(e.getStackTrace());
-			return false;
-		}
+		return STR_BLANK_MESSAGE;
 	}
 
 	private static boolean validateAgeRange(String ageRange) {

@@ -10,6 +10,7 @@ import models.Member;
 import models.User;
 import models.Visitor;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.mail.EmailAttachment;
 
 import bemvindo.service.model.BodyMail;
@@ -26,6 +27,7 @@ import controllers.Application;
 
 public class MailNotifier extends Mailer {
 	public static String STR_URL_SEND_MAIL = Play.configuration.getProperty("send.mail.url");
+	public static String STR_FAIL_MESSAGE = "Ops! :( Algo estranho aconteceu! Por favor, tente novamente!";
 
 	public static void welcome(User user) {
 		setSubject("Bem vindo %s", user.getName());
@@ -118,22 +120,48 @@ public class MailNotifier extends Mailer {
 		send(template, institution);
 	}
 
-	public static String sendMailMembers(List<Member> membersList, ConfigureTemplate template) {
+	public static String sendMailMembers(List<Member> members, ConfigureTemplate template) {
 		String output = "";
 		JsonBody jsonBody = new JsonBody();
 		JsonBodyMail jsonBodyMail = jsonBody.jsonBodyMail;
 		jsonBodyMail.sender = fillSender();
 		jsonBodyMail.bodyMail = fillBodyMail(template);
-		List<SendTo> sendTo = jsonBodyMail.sendTo;
-		sendTo = fillSendTo(membersList);
+		jsonBodyMail.sendTo = fillSendToMembers(members);
+		output = connectAndSend(jsonBodyMail.toString());
+		if ("SUCCESS".equals(output)) {
+			return "E-mails enviados a " + members.size() + " destinatários.";
+		} else {
+			return STR_FAIL_MESSAGE;
+		}
+	}
 
+	public static String sendMailVisitors(List<Visitor> visitors, ConfigureTemplate template) {
+		String output = "";
+		JsonBody jsonBody = new JsonBody();
+		JsonBodyMail jsonBodyMail = jsonBody.jsonBodyMail;
+		jsonBodyMail.sender = fillSender();
+		jsonBodyMail.bodyMail = fillBodyMail(template);
+		jsonBodyMail.sendTo = fillSendToVisitors(visitors);
+		output = connectAndSend(jsonBodyMail.toString());
+		if ("SUCCESS".equals(output)) {
+			return "E-mails enviados a " + visitors.size() + " destinatários.";
+		} else {
+			return STR_FAIL_MESSAGE;
+		}
+	}
+	
+	private static String connectAndSend(String jsonContent) {
+		String output = "";
 		try {
-			output = ConnectionService.openConnection("", STR_URL_SEND_MAIL);
+			output = ConnectionService.openConnection(jsonContent, STR_URL_SEND_MAIL);
 		} catch (IOException e) {
 			e.printStackTrace();
+			return "Ops! Algo errado aconteceu! Tente novamente!";
 		}
 		return output;
+
 	}
+
 
 	private static BodyMail fillBodyMail(ConfigureTemplate template) {
 		BodyMail bodyMail = new BodyMail();
@@ -148,8 +176,8 @@ public class MailNotifier extends Mailer {
 		bodyMail.paragraph5 = template.paragraph5;
 		bodyMail.title3 = template.title3;
 		bodyMail.paragraph6 = template.paragraph6;
-		bodyMail.paragraph7 = template.paragraph7 ;
-		bodyMail.paragraph8 = template.paragraph8 ;
+		bodyMail.paragraph7 = template.paragraph7;
+		bodyMail.paragraph8 = template.paragraph8;
 		bodyMail.paragraph9 = template.paragraph9;
 		bodyMail.paragraph10 = template.paragraph10;
 		bodyMail.footer1 = template.footer1;
@@ -163,13 +191,25 @@ public class MailNotifier extends Mailer {
 		return bodyMail;
 	}
 
-	private static List<SendTo> fillSendTo(List<Member> membersList) {
+	private static List<SendTo> fillSendToMembers(List<Member> membersList) {
 		List<SendTo> sentoList = new ArrayList<SendTo>();
 		for (Member member : membersList) {
 			SendTo sendTo = new SendTo();
 			sendTo.name = member.name;
 			sendTo.sex = member.gender.getLabel();
 			sendTo.destination = member.email;
+			sentoList.add(sendTo);
+		}
+		return sentoList;
+	}
+
+	private static List<SendTo> fillSendToVisitors(List<Visitor> visitorsList) {
+		List<SendTo> sentoList = new ArrayList<SendTo>();
+		for (Visitor visitor : visitorsList) {
+			SendTo sendTo = new SendTo();
+			sendTo.name = visitor.name;
+			sendTo.sex = visitor.gender.getLabel();
+			sendTo.destination = visitor.email;
 			sentoList.add(sendTo);
 		}
 		return sentoList;
