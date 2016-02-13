@@ -217,7 +217,7 @@ public class MailNotifier extends Mailer {
 
 	private static Sender fillSender() {
 		Sender sender = new Sender();
-		sender.key = Admin.getLoggedUserInstitution().getInstitution().getKey();
+		sender.key = Admin.getLoggedUserInstitution().getInstitution().getInstitutionKey();
 		sender.company = Admin.getLoggedUserInstitution().getInstitution().getInstitution();
 		sender.from = Admin.getLoggedUserInstitution().getInstitution().getEmail();
 		sender.postedAt = Utils.getCurrentDateTime();

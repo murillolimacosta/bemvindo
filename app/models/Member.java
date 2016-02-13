@@ -41,7 +41,6 @@ public class Member extends Model {
 	public MaritalStatusEnum maritalStatus = MaritalStatusEnum.Solteiro;
 
 	@MaxSize(3)
-	@Required
 	public int age;
 
 	@Temporal(TemporalType.DATE)
@@ -51,22 +50,25 @@ public class Member extends Model {
 	public Date memberSince;
 
 	public String address;
+	
 	public String complement;
+	
 	public String cep;
 
-	@Required
 	public long countryId;
 
-	@Required
 	public long stateId;
 
-	@Required
 	public long cityId;
 
 	@Email
 	@Unique
+	@Required
 	public String email;
+	
+	@Required
 	public String cellphone;
+	
 	public String phone;
 
 	public boolean isActive;

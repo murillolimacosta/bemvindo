@@ -1,5 +1,10 @@
 package util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -139,6 +144,27 @@ public class Utils extends Controller {
 
 	public static String randomKey() {
 		return UUID.randomUUID().toString();
+	}
+	
+	public static String getJsonFileContent(File jsonFile) {
+		try {
+			String jsonContent = "";
+			InputStream is = new FileInputStream(jsonFile);
+			String UTF8 = "utf8";
+			int BUFFER_SIZE = 8192;
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(is, UTF8), BUFFER_SIZE);
+			String str;
+
+			while ((str = br.readLine()) != null) {
+				jsonContent += str;
+			}
+			return jsonContent;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

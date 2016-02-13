@@ -41,5 +41,5 @@ public class Security extends Secure.Security {
 		String userId = session.get("logged");
 		return userId == null ? null : (User) User.findById(Long.parseLong(userId));
 	}
-
+	
 }

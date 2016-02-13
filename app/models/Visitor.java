@@ -44,22 +44,18 @@ public class Visitor extends Model {
 	public MaritalStatusEnum maritalStatus = MaritalStatusEnum.Solteiro;
 
 	@MaxSize(3)
-	@Required
 	public int age;
 
 	@Temporal(TemporalType.DATE)
 	@As("dd/MM/yyyy")
 	public Date birthDate;
 
-	@Required
 	@Min(1)
 	public long countryId;
 
-	@Required
 	@Min(1)
 	public long stateId;
 
-	@Required
 	@Min(1)
 	public long cityId;
 
@@ -71,9 +67,13 @@ public class Visitor extends Model {
 
 	@Email
 	@Unique
+	@Required
 	public String email;
+
 	@Phone
+	@Required
 	public String cellphone;
+	
 	@Phone
 	public String phone;
 
@@ -84,11 +84,13 @@ public class Visitor extends Model {
 	public String whoInvited;
 
 	public boolean isFromSomeChurch;
+	
 	public String church;
+	
 	public boolean isReceiveVisitation;
+	
 	public boolean isKnowChurch;
 
-	@Required(message = "validation.prayorders")
 	@MaxSize(10000)
 	public String prayOrders;
 
@@ -104,10 +106,6 @@ public class Visitor extends Model {
 	@Hidden
 	public long institutionId;
 	
-	@ManyToOne
-	@JoinColumn(name = "groupId")
-	public VisitorGroup visitorGroup;
-
 	public String toString() {
 		return name + " " + lastName;
 	}
@@ -120,7 +118,7 @@ public class Visitor extends Model {
 		return address;
 	}
 
-	public void setAddress(String address) {
+		public void setAddress(String address) {
 		this.address = address;
 	}
 
@@ -345,14 +343,6 @@ public class Visitor extends Model {
 
 	public void setInstitutionId(long institutionId) {
 		this.institutionId = institutionId;
-	}
-
-	public VisitorGroup getVisitorGroup() {
-		return visitorGroup;
-	}
-
-	public void setVisitorGroup(VisitorGroup visitorGroup) {
-		this.visitorGroup = visitorGroup;
 	}
 
 }

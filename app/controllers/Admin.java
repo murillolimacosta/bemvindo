@@ -37,7 +37,11 @@ public class Admin extends Controller {
 	static void setConnectedUser() {
 		if (Security.isConnected()) {
 			User user = User.find("byEmail", Security.connected()).first();
-			renderArgs.put("user", user.name);
+			if (user != null) {
+				renderArgs.put("user", user.name);
+			} else {
+				Application.index();
+			}
 		}
 	}
 
@@ -146,9 +150,11 @@ public class Admin extends Controller {
 		if (userInstitutionParameter == null)
 			userInstitutionParameter = new UserInstitutionParameter();
 		if (userInstitutionParameter.getUser() == null || userInstitutionParameter.getInstitution() == null) {
-			userInstitutionParameter.setUser(getLoggedUser());
-			if (getLoggedUser().getInstitutionId() > 0) {
-				userInstitutionParameter.setInstitution(getLoggedInstitution());
+			if (getLoggedUser() != null) {
+				userInstitutionParameter.setUser(getLoggedUser());
+				if (getLoggedUser().getInstitutionId() > 0) {
+					userInstitutionParameter.setInstitution(getLoggedInstitution());
+				}
 			}
 		}
 		return userInstitutionParameter;

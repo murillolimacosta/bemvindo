@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
@@ -28,7 +29,7 @@ import controllers.CRUD.Hidden;
 
 @Entity
 public class Institution extends Model {
-
+	
 	@Required
 	public String institution;
 
@@ -85,7 +86,7 @@ public class Institution extends Model {
 	@As("yyyy-MM-dd HH:mm:ss")
 	public Date licenseDate = new Date();
 
-	public String key;
+	public String institutionKey;
 
 	public Date getLicenseDate() {
 		return licenseDate;
@@ -333,15 +334,15 @@ public class Institution extends Model {
 		return find("byEmail", email).first();
 	}
 
-	public String getKey() {
-		if (this.key == null) {
-			setKey(Utils.randomKey());
+	public String getInstitutionKey() {
+		if (this.institutionKey == null) {
+			setInstitutionKey(Utils.randomKey());
 		}
-		return key;
+		return institutionKey;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setInstitutionKey(String institutionKey) {
+		this.institutionKey = institutionKey;
 	}
 
 	public long getPublishedBy() {
@@ -351,4 +352,5 @@ public class Institution extends Model {
 	public void setPublishedBy(long publishedBy) {
 		this.publishedBy = publishedBy;
 	}
+
 }

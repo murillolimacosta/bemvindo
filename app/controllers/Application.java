@@ -47,7 +47,7 @@ public class Application extends Controller {
 				user.save();
 				flash.clear();
 				validation.errors().clear();
-				flash.success("Sucesso! Quase lá, " + user.getName() + "! Para entrar, preencha os campos abaixo. :)", "");
+				flash.success("Cadastro realizado com sucesso! Você está quase lá, " + user.getName() + "! Para entrar, preencha os campos abaixo. :)", "");
 				redirect("/login");
 			}
 		}
