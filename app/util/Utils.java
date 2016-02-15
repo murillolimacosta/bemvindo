@@ -16,6 +16,10 @@ import java.util.UUID;
 
 import play.mvc.Controller;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 public class Utils extends Controller {
 	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm";
 
@@ -165,6 +169,20 @@ public class Utils extends Controller {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static JsonObject getJsonObject(String jsonContent, String objectName) {
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(jsonContent).getAsJsonObject();
+		JsonObject jsonObject = (JsonObject) obj.get(objectName);
+		return jsonObject;
+	}
+
+	public static JsonArray getJsonArray(String jsonContent, String arrayName) {
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(jsonContent).getAsJsonObject();
+		JsonArray jsonArray = (JsonArray) obj.get(arrayName);
+		return jsonArray;
 	}
 	
 }

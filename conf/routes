@@ -129,7 +129,7 @@ POST	${ctx}/painel/membros/{id}					MembersCRUD.save
 DELETE	${ctx}/painel/membros/{id}					MembersCRUD.delete
 
 # Administration
-POST    ${ctx}/popular                     			PopulateDB.populate
+GET    ${ctx}/popular                     			PopulateDB.populate
 GET     ${ctx}/primeiros-passos						Admin.firstStep
 GET     ${ctx}/painel/?	                      		Admin.index
 GET     ${ctx}/painel/{id}                     		Admin.form
