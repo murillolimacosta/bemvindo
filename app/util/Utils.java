@@ -140,6 +140,12 @@ public class Utils extends Controller {
 		return dateFormat.format(cal.getTime());
 	}
 
+	public static String getCurrentDateTimeByFormat(String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format);
+		Calendar cal = Calendar.getInstance();
+		return dateFormat.format(cal.getTime());
+	}
+
 	public static void main(String[] args) {
 		for (int i = 0; i < 1000; i++) {
 			System.out.println(randomKey());
@@ -149,7 +155,7 @@ public class Utils extends Controller {
 	public static String randomKey() {
 		return UUID.randomUUID().toString();
 	}
-	
+
 	public static String getJsonFileContent(File jsonFile) {
 		try {
 			String jsonContent = "";
@@ -170,7 +176,7 @@ public class Utils extends Controller {
 		}
 		return null;
 	}
-	
+
 	public static JsonObject getJsonObject(String jsonContent, String objectName) {
 		JsonParser parser = new JsonParser();
 		JsonObject obj = parser.parse(jsonContent).getAsJsonObject();
@@ -184,5 +190,5 @@ public class Utils extends Controller {
 		JsonArray jsonArray = (JsonArray) obj.get(arrayName);
 		return jsonArray;
 	}
-	
+
 }

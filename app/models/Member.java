@@ -43,8 +43,7 @@ public class Member extends Model {
 	@MaxSize(3)
 	public int age;
 
-	@Temporal(TemporalType.DATE)
-	public Date birthDate;
+	public String birthDate;
 
 	@Temporal(TemporalType.DATE)
 	public Date memberSince;
@@ -164,14 +163,6 @@ public class Member extends Model {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public Date getBirthDate() {
-		return birthDate;
-	}
-
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
 	}
 
 	public String getCellphone() {

@@ -39,7 +39,7 @@ public class User extends Model {
 	public long stateId;
 	
 	@Enumerated(EnumType.STRING)
-	public GenderEnum gender;
+	public GenderEnum gender = GenderEnum.M;
 
 	public long cityId;
 
@@ -77,6 +77,8 @@ public class User extends Model {
 	@As("yyyy-MM-dd HH:mm:ss")
 	public Date postedAt = new Date();
 
+	public User(){}
+	
 	public User(String email, String password, String lastName) {
 		this.email = email;
 		this.password = password;

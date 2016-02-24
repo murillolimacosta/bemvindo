@@ -1,19 +1,22 @@
 package models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import play.db.jpa.Model;
 
 @Entity
 public class City extends Model {
-	@Id
-	public Long id;
-	
 	public String name;
-	
+
 	public long stateId;
 
+	@GenericGenerator(name = "generator", strategy = "increment")
+	@GeneratedValue(generator = "generator")
 	public Long getId() {
 		return id;
 	}
@@ -37,7 +40,7 @@ public class City extends Model {
 	public void setStateId(long stateId) {
 		this.stateId = stateId;
 	}
-	
+
 	public static City verifyById(long id) {
 		return find("byId", id).first();
 	}

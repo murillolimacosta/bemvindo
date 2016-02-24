@@ -1,5 +1,6 @@
 package models;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -46,9 +47,7 @@ public class Visitor extends Model {
 	@MaxSize(3)
 	public int age;
 
-	@Temporal(TemporalType.DATE)
-	@As("dd/MM/yyyy")
-	public Date birthDate;
+	public String birthDate;
 
 	@Min(1)
 	public long countryId;
@@ -77,9 +76,7 @@ public class Visitor extends Model {
 	@Phone
 	public String phone;
 
-	@Temporal(TemporalType.DATE)
-	@As("dd/MM/yyyy")
-	public Date visitDay;
+	public String visitDay;
 
 	public String whoInvited;
 
@@ -96,9 +93,8 @@ public class Visitor extends Model {
 
 	public boolean isActive;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@As("yyyy-MM-dd HH:mm:ss")
-	public Date postedAt = new Date();
+	@Hidden
+	public String postedAt;
 
 	@Hidden
 	public long publishedBy;
@@ -146,14 +142,14 @@ public class Visitor extends Model {
 		this.isActive = isActive;
 	}
 
-	public Date getPostedAt() {
+	public String getPostedAt() throws ParseException {
 		if (postedAt == null) {
-			postedAt = new Date();
+			postedAt = Utils.getCurrentDateTimeByFormat("yyyy-MM-dd hh:mm:ss");
 		}
 		return postedAt;
 	}
 
-	public void setPostedAt(Date postedAt) {
+	public void setPostedAt(String postedAt) {
 		this.postedAt = postedAt;
 	}
 
@@ -245,28 +241,12 @@ public class Visitor extends Model {
 		this.lastName = lastName;
 	}
 
-	public Date getBirthDate() {
-		return birthDate;
-	}
-
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
-
 	public String getCellphone() {
 		return cellphone;
 	}
 
 	public void setCellphone(String cellphone) {
 		this.cellphone = cellphone;
-	}
-
-	public Date getVisitDay() {
-		return visitDay;
-	}
-
-	public void setVisitDay(Date visitDay) {
-		this.visitDay = visitDay;
 	}
 
 	public String getNameAndLastNameLimited() {
@@ -343,6 +323,22 @@ public class Visitor extends Model {
 
 	public void setInstitutionId(long institutionId) {
 		this.institutionId = institutionId;
+	}
+
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getVisitDay() {
+		return visitDay;
+	}
+
+	public void setVisitDay(String visitDay) {
+		this.visitDay = visitDay;
 	}
 
 }
