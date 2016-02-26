@@ -144,7 +144,7 @@ public class Visitor extends Model {
 
 	public String getPostedAt() throws ParseException {
 		if (postedAt == null) {
-			postedAt = Utils.getCurrentDateTimeByFormat("yyyy-MM-dd hh:mm:ss");
+			postedAt = Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss");
 		}
 		return postedAt;
 	}

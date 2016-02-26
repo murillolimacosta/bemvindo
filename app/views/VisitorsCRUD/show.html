@@ -11,6 +11,24 @@
                	<div class="col-lg-6">
 					#{form action:@save(object._key()), enctype:'multipart/form-data'}
 						#{crud.form}
+							#{crud.custom 'birthDate'}
+								<div class="form-group">
+									<label for="object_birthDate"> Data de nascimento </label>
+									#{ifError 'object.birthDate'}
+								        <label class="control-label-red" for="${object.birthDate}">#{error 'object.birthDate' /}</label>
+								    #{/ifError}
+									<input id="object_birthDate" class="form-control datemask" type="text" name="object.birthDate" value="${object.birthDate}">
+								</div>
+							#{/crud.custom}
+	    					#{crud.custom 'visitDay'}
+								<div class="form-group">
+									<label for="object_visitDay"> Data da visita </label>
+									#{ifError 'object.visitDay'}
+								        <label class="control-label-red" for="${object.visitDay}">#{error 'object.visitDay' /}</label>
+								    #{/ifError}
+									<input id="object_visitDay" class="form-control datemask" type="text" name="object.visitDay" value="${object.visitDay}">
+								</div>
+							#{/crud.custom}
 							#{crud.custom 'cep'}
 								<div class="form-group">
 									<label for="object_cep"> CEP </label>

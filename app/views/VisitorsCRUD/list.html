@@ -14,7 +14,7 @@
             	<div class="dataTable_wrapper">
 			        #{crud.table fields:['postedAt','name', 'email', 'visitDay', 'isReceiveVisitation', 'action']}
 			         	#{crud.custom 'postedAt'}
-			         		<a href="@{VisitorsCRUD.show(object.id)}">${object.postedAt.format("dd/MM/yyyy HH'h'mm")}</a>
+			         		<a href="@{VisitorsCRUD.show(object.id)}">${object.postedAt}</a>
 				        #{/crud.custom}
 			         	#{crud.custom 'name'}
 			         		<a href="@{VisitorsCRUD.show(object.id)}">${object.name} ${object.lastName}</a>
@@ -23,7 +23,7 @@
 			         		<a href="@{VisitorsCRUD.show(object.id)}">${object.email}</a>
 				        #{/crud.custom}
 			         	#{crud.custom 'visitDay'}
-			         		<a href="@{VisitorsCRUD.show(object.id)}">${object.visitDay.format("dd/MM/yyyy")}</a>
+			         		<a href="@{VisitorsCRUD.show(object.id)}">${object.visitDay}</a>
 				        #{/crud.custom}
 				        #{crud.custom 'isReceiveVisitation'}
 					        #{if object.isReceiveVisitation}
