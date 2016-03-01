@@ -12,6 +12,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import play.mvc.Controller;
@@ -21,7 +23,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class Utils extends Controller {
-	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm";
+	public static final String STR_DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm";
+	public static final String STR_BRAZIL_TIMEZONE = "America/Sao_Paulo";
 
 	public static String formatToMoney(double price) {
 		NumberFormat formatter = new DecimalFormat("R$ #0.00");
@@ -135,21 +138,29 @@ public class Utils extends Controller {
 	}
 
 	public static String getCurrentDateTime() {
-		DateFormat dateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
-		Calendar cal = Calendar.getInstance();
+		DateFormat dateFormat = new SimpleDateFormat(STR_DEFAULT_DATE_FORMAT);
+		Calendar cal = getBrazilCalendar();
 		return dateFormat.format(cal.getTime());
 	}
 
 	public static String getCurrentDateTimeByFormat(String format) {
 		DateFormat dateFormat = new SimpleDateFormat(format);
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = getBrazilCalendar();
 		return dateFormat.format(cal.getTime());
 	}
 
 	public static void main(String[] args) {
-		for (int i = 0; i < 1000; i++) {
-			System.out.println(randomKey());
-		}
+		TimeZone tz = TimeZone.getTimeZone("America/Sao_Paulo");
+		TimeZone.setDefault(tz);
+		Calendar ca = GregorianCalendar.getInstance(tz);
+		System.out.println(ca.getTime());
+	}
+
+	public static Calendar getBrazilCalendar() {
+		TimeZone tz = TimeZone.getTimeZone(STR_BRAZIL_TIMEZONE);
+		TimeZone.setDefault(tz);
+		Calendar calendar = GregorianCalendar.getInstance(tz);
+		return calendar;
 	}
 
 	public static String randomKey() {

@@ -362,7 +362,7 @@ public class EmailMarketingCRUD extends CRUD {
 		emailM.setName(visitor.getName());
 		emailM.setEmail(visitor.getEmail());
 		emailM.setTemplate(template.getTitle1());
-		emailM.setPostedAt(new Date());
+		emailM.setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 		return emailM;
 	}
 
@@ -374,7 +374,7 @@ public class EmailMarketingCRUD extends CRUD {
 		emailM.setName(member.getName());
 		emailM.setEmail(member.getEmail());
 		emailM.setTemplate(template.getTitle1());
-		emailM.setPostedAt(new Date());
+		emailM.setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 		return emailM;
 	}
 }

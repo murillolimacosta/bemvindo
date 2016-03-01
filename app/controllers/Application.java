@@ -42,7 +42,7 @@ public class Application extends Controller {
 			} else {
 				user.setAdmin(true);
 				user.setActive(true);
-				user.setPostedAt(new Date());
+				user.setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 				user.setInstitutionId(0);
 				user.save();
 				flash.clear();
@@ -66,7 +66,7 @@ public class Application extends Controller {
 				// Links the user to institution
 				institution.setUserId(userInstitutionParameter.getUser().getId());
 				institution.setPublishedId(userInstitutionParameter.getUser().getId());
-				institution.setPostedAt(new Date());
+				institution.setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 				// Grants one month free to user
 				Calendar calendar = Calendar.getInstance();
 				calendar.add(Calendar.MONTH, 1);
@@ -97,7 +97,7 @@ public class Application extends Controller {
 				user.setAdmin(false);
 				user.setActive(true);
 				user.setInstitutionId(Admin.getLoggedInstitution().getId());
-				user.setPostedAt(new Date());
+				user.setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 				user.save();
 				flash.clear();
 				validation.errors().clear();

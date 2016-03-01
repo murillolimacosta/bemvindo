@@ -1,5 +1,6 @@
 package models;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import controllers.Application;
 import controllers.CRUD.Hidden;
 import play.data.binding.As;
 import play.db.jpa.Model;
+import util.Utils;
 
 @Entity
 public class EmailMarketing extends Model {
@@ -18,9 +20,8 @@ public class EmailMarketing extends Model {
 	public String email;
 	public String template;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@As("yyyy-MM-dd HH:mm:ss")
-	public Date postedAt = new Date();
+	@Hidden
+	public String postedAt;
 
 	@Hidden
 	public long institutionId;
@@ -28,14 +29,14 @@ public class EmailMarketing extends Model {
 	@Hidden
 	public long publishedBy;
 
-	public Date getPostedAt() {
-		if (postedAt == null) {
-			postedAt = new Date();
+	public String getPostedAt() throws ParseException {
+		if (this.postedAt == null) {
+			setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 		}
 		return postedAt;
 	}
 
-	public void setPostedAt(Date postedAt) {
+	public void setPostedAt(String postedAt) {
 		this.postedAt = postedAt;
 	}
 

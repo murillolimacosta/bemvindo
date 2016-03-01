@@ -1,5 +1,6 @@
 package models;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -16,6 +17,7 @@ import play.data.validation.Phone;
 import play.data.validation.Required;
 import play.data.validation.Unique;
 import play.db.jpa.Model;
+import util.Utils;
 import controllers.CRUD.Hidden;
 import enumeration.GenderEnum;
 
@@ -73,9 +75,8 @@ public class User extends Model {
 	@Hidden
 	public long institutionId;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@As("yyyy-MM-dd HH:mm:ss")
-	public Date postedAt = new Date();
+	@Hidden
+	public String postedAt;
 
 	public User(){}
 	
@@ -217,14 +218,14 @@ public class User extends Model {
 		this.isActive = isActive;
 	}
 
-	public Date getPostedAt() {
-		if (postedAt == null) {
-			postedAt = new Date();
+	public String getPostedAt() throws ParseException {
+		if (this.postedAt == null) {
+			setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 		}
 		return postedAt;
 	}
 
-	public void setPostedAt(Date postedAt) {
+	public void setPostedAt(String postedAt) {
 		this.postedAt = postedAt;
 	}
 

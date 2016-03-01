@@ -1,5 +1,6 @@
 package models;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -37,12 +38,8 @@ public class Intercessor extends Model {
 	@Hidden
 	public long institutionId;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@As("yyyy-MM-dd HH:mm:ss")
-	public Date postedAt = new Date();
-
-	@Transient
-	public String formattedDate = Utils.formatDate(postedAt);
+	@Hidden
+	public String postedAt;
 
 	public String toString() {
 		return name;
@@ -64,23 +61,15 @@ public class Intercessor extends Model {
 		this.email = email;
 	}
 
-	public Date getPostedAt() {
-		if (postedAt == null) {
-			postedAt = new Date();
+	public String getPostedAt() throws ParseException {
+		if (this.postedAt == null) {
+			setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 		}
 		return postedAt;
 	}
 
-	public void setPostedAt(Date postedAt) {
+	public void setPostedAt(String postedAt) {
 		this.postedAt = postedAt;
-	}
-
-	public String getFormattedDate() {
-		return formattedDate;
-	}
-
-	public void setFormattedDate(String formattedDate) {
-		this.formattedDate = formattedDate;
 	}
 
 	public String getLastName() {

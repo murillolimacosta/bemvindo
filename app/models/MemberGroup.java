@@ -1,5 +1,6 @@
 package models;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +15,7 @@ import javax.persistence.TemporalType;
 import play.data.binding.As;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import util.Utils;
 import controllers.Admin;
 import controllers.Application;
 import controllers.CRUD.Hidden;
@@ -40,8 +42,8 @@ public class MemberGroup extends Model {
 		return title;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date postedAt;
+	@Hidden
+	public String postedAt;
 
 	public boolean isActive() {
 		return isActive;
@@ -51,15 +53,11 @@ public class MemberGroup extends Model {
 		this.isActive = isActive;
 	}
 
-	public Date getPostedAt() {
-		if (postedAt == null) {
-			postedAt = new Date();
+	public String getPostedAt() throws ParseException {
+		if (this.postedAt == null) {
+			setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 		}
 		return postedAt;
-	}
-
-	public void setPostedAt(Date postedAt) {
-		this.postedAt = postedAt;
 	}
 
 	public String getTitle() {
@@ -87,6 +85,10 @@ public class MemberGroup extends Model {
 
 	public void setInstitutionId(long institutionId) {
 		this.institutionId = institutionId;
+	}
+
+	public void setPostedAt(String postedAt) {
+		this.postedAt = postedAt;
 	}
 
 }

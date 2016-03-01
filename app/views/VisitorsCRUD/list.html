@@ -39,6 +39,7 @@
 				        #{/crud.custom}
 			         	#{crud.custom 'action'}
 				       		<a href="@{VisitorsCRUD.show(object.id)}" class="btn btn-default"><i class="fa fa-edit"></i></a>
+				       		<a href="JavaScript:openPopup('@{VisitorPrayOrderCRUD.prayOrders(object.id)}');" class="btn btn-default" title="Adicionar Pedidos de Oração"><i class="fa fa-list-ol"></i></a>
 				        #{/crud.custom}
 				    #{/crud.table}
 					<div class="alert alert-info alert-dismissable">
@@ -58,3 +59,9 @@
         });
     });
     </script>
+    <script type="text/javascript">
+		function openPopup(url) {
+			popupWindow = window.open(
+				url,'popUpWindow','height=700,width=600,left=400,top=10,resizable=no,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=yes')
+		}
+	</script>

@@ -14,7 +14,7 @@
             	<div class="dataTable_wrapper">
 			       #{crud.table fields:['postedAt', 'title', 'weekDays', 'periodDays', 'isActive', 'action']}
 				       	#{crud.custom 'postedAt'}
-				        		<a href="@{EventsCRUD.show(object.id)}">${object.postedAt.format("dd/MM/yyyy HH'h'mm")}</a>
+				        		<a href="@{EventsCRUD.show(object.id)}">${object.postedAt}</a>
 				        #{/crud.custom}
 				       	#{crud.custom 'title'}
 				       		<a href="@{EventsCRUD.show(object.id)}">${object.title}</a>

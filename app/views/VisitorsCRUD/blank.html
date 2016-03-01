@@ -69,16 +69,6 @@
 									#{include 'includes/selectCities.html' /}
 								</div>
 							#{/crud.custom}
-							#{crud.custom 'prayOrders'}
-								<div class="form-group">
-									<label for="object_prayOrders"> Pedidos de oração </label>
-									#{ifError 'object.prayOrders'}
-								        <label class="control-label-red" for="${object.prayOrders}">#{error 'object.prayOrders' /}</label>
-								    #{/ifError}
-									<textarea id="object_prayOrders" class="form-control " name="object.prayOrders" rows="5" cols="48">${object.prayOrders}</textarea>
-									<p class="help-block"> Obrigatório. Separe os pedidos por (;) ponto e vírgula. Máximo: 10000 caracteres. </p>
-								</div>
-							#{/crud.custom}
 							#{crud.custom 'isActive'}
 								<div class="form-group">
 									<label> Habilitar </label> 

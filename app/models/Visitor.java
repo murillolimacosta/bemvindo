@@ -8,6 +8,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostLoad;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -88,9 +89,6 @@ public class Visitor extends Model {
 	
 	public boolean isKnowChurch;
 
-	@MaxSize(10000)
-	public String prayOrders;
-
 	public boolean isActive;
 
 	@Hidden
@@ -101,6 +99,10 @@ public class Visitor extends Model {
 
 	@Hidden
 	public long institutionId;
+	
+	@PostLoad
+	public void postLoad() {
+	}
 	
 	public String toString() {
 		return name + " " + lastName;
@@ -143,12 +145,12 @@ public class Visitor extends Model {
 	}
 
 	public String getPostedAt() throws ParseException {
-		if (postedAt == null) {
-			postedAt = Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss");
+		if (this.postedAt == null) {
+			setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 		}
 		return postedAt;
 	}
-
+	
 	public void setPostedAt(String postedAt) {
 		this.postedAt = postedAt;
 	}
@@ -215,14 +217,6 @@ public class Visitor extends Model {
 
 	public void setKnowChurch(boolean isKnowChurch) {
 		this.isKnowChurch = isKnowChurch;
-	}
-
-	public String getPrayOrders() {
-		return prayOrders;
-	}
-
-	public void setPrayOrders(String prayOrders) {
-		this.prayOrders = prayOrders;
 	}
 
 	public Event getEventDay() {

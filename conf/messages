@@ -96,6 +96,7 @@ UsersCRUD=Usuário
 MembersCRUD=Membros
 MembersGroupCRUD=Grupo de Membros
 VisitorsGroupCRUD=Grupo de Visitantes
+VisitorPrayOrderCRUD=Pedidos de Oração
 
 #Models
 ContactForm=Mensagens - Form. Contato
@@ -117,6 +118,8 @@ Member=Membro
 Visitor=Visitante
 MemberGroup=Grupo de Membros
 VisitorGroup=Grupo de Visitantes
+VisitorPrayOrder=Pedido de Oração
+visitor=Visitante
 
 #Labels
 name=Nome

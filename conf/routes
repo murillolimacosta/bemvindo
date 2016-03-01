@@ -128,6 +128,17 @@ POST	${ctx}/painel/membros						MembersCRUD.create
 POST	${ctx}/painel/membros/{id}					MembersCRUD.save
 DELETE	${ctx}/painel/membros/{id}					MembersCRUD.delete
 
+# VisitorPrayOrderCRUD routes
+GET		${ctx}/painel/pedidos-de-oracao						VisitorPrayOrderCRUD.list
+GET		${ctx}/painel/pedidos-de-oracao/novo				VisitorPrayOrderCRUD.blank
+GET		${ctx}/painel/pedidos-de-oracao/{id}				VisitorPrayOrderCRUD.show
+GET		${ctx}/painel/pedidos-de-oracao/{id}/{field}		VisitorPrayOrderCRUD.attachment
+GET		${ctx}/painel/pedidos-de-oracao/{id}/editar			VisitorPrayOrderCRUD.edit
+POST	${ctx}/painel/pedidos-de-oracao						VisitorPrayOrderCRUD.create
+POST	${ctx}/painel/pedidos-de-oracao/{id}				VisitorPrayOrderCRUD.save
+DELETE	${ctx}/painel/pedidos-de-oracao/{id}				VisitorPrayOrderCRUD.delete
+GET		${ctx}/painel/adicionar/pedidos-de-oracao/v={id}		VisitorPrayOrderCRUD.prayOrders
+
 # Administration
 GET    ${ctx}/popular                     			PopulateDB.populate
 GET     ${ctx}/primeiros-passos						Admin.firstStep

@@ -1,5 +1,6 @@
 package models;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +34,6 @@ public class Institution extends Model {
 	@Required
 	public String institution;
 
-	@Required
 	public Blob logo;
 
 	public String website;
@@ -100,16 +100,12 @@ public class Institution extends Model {
 		return institution;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@As("yyyy-MM-dd HH:mm:ss")
-	public Date postedAt = new Date();
-
-	@Transient
-	public String formattedDate = Utils.formatDate(postedAt);
+	@Hidden
+	public String postedAt;
 
 	@PrePersist
 	public void prePersist() {
-		postedAt = new Date();
+		setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 	}
 
 	@PostLoad
@@ -152,14 +148,14 @@ public class Institution extends Model {
 		this.localizationGPS = localizationGPS;
 	}
 
-	public Date getPostedAt() {
-		if (postedAt == null) {
-			postedAt = new Date();
+	public String getPostedAt() throws ParseException {
+		if (this.postedAt == null) {
+			setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 		}
 		return postedAt;
 	}
 
-	public void setPostedAt(Date postedAt) {
+	public void setPostedAt(String postedAt) {
 		this.postedAt = postedAt;
 	}
 
@@ -245,14 +241,6 @@ public class Institution extends Model {
 
 	public void setNeighborhood(String neighborhood) {
 		this.neighborhood = neighborhood;
-	}
-
-	public String getFormattedDate() {
-		return formattedDate;
-	}
-
-	public void setFormattedDate(String formattedDate) {
-		this.formattedDate = formattedDate;
 	}
 
 	public String getComplement() {

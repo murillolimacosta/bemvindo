@@ -30,6 +30,12 @@
 					<li><a href="@{MembersGroupCRUD.list}">Membros</a></li>
 				</ul>
 			</li>
+
+			<li style="display: ${session.get("enableUser") == 'false' ? 'none' : 'block'};"><a href="#"><i class="fa fa-group fa-fw"></i> Pedidos de Oração<span class="fa arrow"></span></a>
+				<ul class="nav nav-second-level">
+					<li><a href="@{VisitorPrayOrderCRUD.list}">Visitantes</a></li>
+				</ul>
+			</li>
 			
 			<li style="display: ${session.get("enableUser") == 'false' ? 'none' : 'block'};"><a href="@{ConfigureTemplateCRUD.list}"><i class="fa fa-list-alt fa-fw"></i> Configurar Templates</a></li>
 			

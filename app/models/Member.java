@@ -1,5 +1,6 @@
 package models;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -49,9 +50,9 @@ public class Member extends Model {
 	public Date memberSince;
 
 	public String address;
-	
+
 	public String complement;
-	
+
 	public String cep;
 
 	public long countryId;
@@ -64,24 +65,23 @@ public class Member extends Model {
 	@Unique
 	@Required
 	public String email;
-	
+
 	@Required
 	public String cellphone;
-	
+
 	public String phone;
 
 	public boolean isActive;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@As("yyyy-MM-dd HH:mm:ss")
-	public Date postedAt = new Date();
+	@Hidden
+	public String postedAt;
 
 	@Hidden
 	public long publishedBy;
 
 	@Hidden
 	public long institutionId;
-	
+
 	public String toString() {
 		return name + " " + lastName;
 	}
@@ -122,15 +122,11 @@ public class Member extends Model {
 		this.isActive = isActive;
 	}
 
-	public Date getPostedAt() {
-		if (postedAt == null) {
-			postedAt = new Date();
+	public String getPostedAt() throws ParseException {
+		if (this.postedAt == null) {
+			setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 		}
 		return postedAt;
-	}
-
-	public void setPostedAt(Date postedAt) {
-		this.postedAt = postedAt;
 	}
 
 	public String getName() {
@@ -235,6 +231,10 @@ public class Member extends Model {
 
 	public void setComplement(String complement) {
 		this.complement = complement;
+	}
+
+	public void setPostedAt(String postedAt) {
+		this.postedAt = postedAt;
 	}
 
 }
