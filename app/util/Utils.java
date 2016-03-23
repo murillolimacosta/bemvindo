@@ -149,11 +149,17 @@ public class Utils extends Controller {
 		return dateFormat.format(cal.getTime());
 	}
 
-	public static void main(String[] args) {
+	public static void mains(String[] args) {
 		TimeZone tz = TimeZone.getTimeZone("America/Sao_Paulo");
 		TimeZone.setDefault(tz);
 		Calendar ca = GregorianCalendar.getInstance(tz);
 		System.out.println(ca.getTime());
+	}
+	
+	public static void main(String[] args) {
+		int randomNum = 0;
+		randomNum = 1 + (int)(Math.random() * 1000);
+		System.out.println(randomNum);
 	}
 
 	public static Calendar getBrazilCalendar() {
