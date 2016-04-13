@@ -1,0 +1,27 @@
+<meta charset="utf-8" />
+<div class="table-responsive">
+	<table class="table table-hover" id="prayorders-table">
+		<thead>
+			<tr>
+				<th>Descrição</th>
+				<th>Remover</th>
+			</tr>
+		</thead>
+		<tbody>
+			#{list prayOrders, as:'pray'}
+			<tr>
+				<td><a href="#">${pray.description} </a></td>
+				<td><button id="delete_pray" type="button" class="btn btn-danger btn-circle" value="${pray.description}" onclick="deletePray()">
+						<i class="fa fa-times"></i>
+					</button></td>
+			</tr>
+			#{/list}
+		</tbody>
+	</table>
+
+	<select size="1" name="selectPrayOrders" multiple="multiple" hidden="true">
+	    #{list prayOrders, as: 'pray'}
+	        <option value="${pray.description}" selected="selected">${pray.description}</option>
+	    #{/list}
+	</select>
+</div>

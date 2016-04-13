@@ -1,0 +1,79 @@
+<html lang="${lang}">
+<head>
+<meta charset="utf-8" />
+#{set title:'Adicionar Pedidos de Oração' /} #{include 'includes/headCrud.html' /}
+</head>
+<body>
+	<!-- Navigation -->
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Adicionar Pedidos de Oração</h1>
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+		#{if flash.success}
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="alert alert-info alert-dismissable">${flash.success}</div>
+			</div>
+		</div>
+		#{/if} #{if flash.error || error}
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="alert alert-danger alert-dismissable">${error ?: flash.error}</div>
+			</div>
+		</div>
+		#{/if}
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<form id="form" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+								<div class="col-lg-6">
+									<div class="form-group" style="max-height: 300px; overflow: auto;">
+										<button id="add-new-order" class="btn btn-default" name="btn_adicionar" style="margin-bottom: 10px">
+											<i class="fa fa-plus-square"> Novo</i>
+										</button>
+										<div class="table-responsive">
+											<table class="table table-hover">
+												<thead>
+													<tr>
+														<th>Descrição</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody id="orders-items">
+													#{list prayOrders, as:'pray'}
+														<tr>
+															<td><input id="description" name="description" type="text" class="form-control" value="${pray?.description}" /></td>
+															<td><button id="remove-order" class="btn btn-default" value="${pray?.description}"><i class="fa fa-minus-square"></i></button></td>
+														</tr>
+													#{/list}
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="form-group" style="float: right">
+										<button id="addPrayOrders" type="submit" class="btn btn-default">Salvar</button>
+									</div>
+								</div>
+								<input id="visitorId" name="visitorId" type="hidden" />
+								#{include 'includes/scriptPrayOrders.html' /}
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /#page-wrapper -->
+	<!-- /#wrapper -->
+	<!-- footerCrud -->
+	#{include 'includes/footerCrud.html' /}
+
+	<!-- footerCrud -->
+</body>
+
+</html>

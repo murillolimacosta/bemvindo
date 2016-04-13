@@ -1,0 +1,62 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="@{'/public/javascripts/typeahead.min.js'}"></script>
+
+<script type="text/javascript">
+	var scntDiv = $('#orders-items');
+	var i = $('#orders-items tr').size() + 1;
+	$('#add-new-order')
+			.click(
+					function() {
+						scntDiv
+								.append('<tr><td><input type="text" class="form-control" name="description" id="order-description"/></td><td><button id="remove-order" class="btn btn-default"><i class="fa fa-minus-square"></i></button></td></tr>');
+						i++;
+						return false;
+					});
+
+	//Remove button
+	$(document).on('click', '#remove-order', function() {
+		if (i > 2) {
+			$(this).closest('tr').remove();
+			
+			i--;
+		}
+		return false;
+	});
+	$('#addPrayOrders').click(function(evt) {
+		document.getElementById("visitorId").setAttribute('value', getURLParameter('id'));
+		var values = {};
+		var fields = $('#form').serializeArray();
+		$.each(fields, function() {
+			if (values[this.name]) {
+				if (!values[this.name].push) {
+					values[this.name] = [values[this.name]];
+				}
+				values[this.name].push(this.value || '');
+			} else {
+				values[this.name] = this.value || '';
+			}
+		});
+		$.ajax({
+			type : 'POST',
+			url : '/painel/adicionar-pedidos-de-oracao/',
+			dataType : 'json',
+			data : JSON.stringify(values),
+			success : function(data) {
+			},
+			error : function(data) {
+			}
+		});
+		return false;
+	});
+	function getURLParameter(sParam) {
+	    var url = window.location.search.substring(1);
+	    var urlVariables = url.split('&');
+	    for (var i = 0; i < urlVariables.length; i++) {
+	        var sParameterName = urlVariables[i].split('=');
+	        if (sParameterName[0] == sParam)
+	        {
+	           return sParameterName[1];
+	        }
+	    }
+	}
+</script>

@@ -1,0 +1,20 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="@{'/public/javascripts/typeahead.min.js'}"></script>
+
+<script type="text/javascript">
+	$(document).ready(function(e) {
+		$('#save_institution').post('#', function(e) {
+	    	var items = this.params.toHash();
+			var action = #{jsAction @VisitorPrayOrderCRUD.addPrayOrders() /}
+        	this.send($.post, action(), items)
+	            .then(function(contents) {
+                	this.swap(contents);
+           	});
+		});
+	});
+	function deletePray() {
+	    	var prayOrderDescription = $("#delete_pray").val().split(' ').join('+');
+	    	var deletePrayOrderAction = #{jsAction @VisitorPrayOrderCRUD.deletePrayOrders(':prayOrderDescription') /};     
+	    	$('table').load(deletePrayOrderAction({prayOrderDescription: prayOrderDescription}));
+	}
+</script>
