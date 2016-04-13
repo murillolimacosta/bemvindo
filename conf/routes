@@ -137,8 +137,7 @@ GET		${ctx}/painel/pedidos-de-oracao/{id}/editar					VisitorPrayOrderCRUD.edit
 POST	${ctx}/painel/pedidos-de-oracao								VisitorPrayOrderCRUD.create
 POST	${ctx}/painel/pedidos-de-oracao/{id}						VisitorPrayOrderCRUD.save
 DELETE	${ctx}/painel/pedidos-de-oracao/{id}						VisitorPrayOrderCRUD.delete
-GET		${ctx}/painel/adicionar-pedidos-de-oracao/{id}				VisitorPrayOrderCRUD.prayOrders
-GET		${ctx}/painel/adicionar-pedidos-de-oracao/					VisitorPrayOrderCRUD.prayOrders
+POST	${ctx}/painel/adicionar-pedidos-de-oracao/					VisitorPrayOrderCRUD.addPrayOrders
 
 
 # Administration

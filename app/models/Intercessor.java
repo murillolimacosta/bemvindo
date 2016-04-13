@@ -32,6 +32,10 @@ public class Intercessor extends Model {
 
 	public boolean isActive;
 
+	public boolean isReveiceSMS;
+	
+	public boolean isReceiveMail;
+
 	@Hidden
 	public long publishedBy;
 
@@ -102,6 +106,30 @@ public class Intercessor extends Model {
 
 	public void setInstitutionId(long institutionId) {
 		this.institutionId = institutionId;
+	}
+
+	public boolean isReveiceSMS() {
+		return isReveiceSMS;
+	}
+
+	public void setReveiceSMS(boolean isReveiceSMS) {
+		this.isReveiceSMS = isReveiceSMS;
+	}
+
+	public boolean isReceiveMail() {
+		return isReceiveMail;
+	}
+
+	public void setReceiveMail(boolean isReceiveMail) {
+		this.isReceiveMail = isReceiveMail;
+	}
+
+	public long getPublishedBy() {
+		return publishedBy;
+	}
+
+	public void setPublishedBy(long publishedBy) {
+		this.publishedBy = publishedBy;
 	}
 
 }
