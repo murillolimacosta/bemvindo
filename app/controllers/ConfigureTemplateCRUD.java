@@ -84,4 +84,8 @@ public class ConfigureTemplateCRUD extends CRUD {
 			render("CRUD/show.html", type, object);
 		}
 	}
+	
+	public static void simple() {
+		render();
+	}
 }
