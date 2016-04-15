@@ -68,7 +68,7 @@ public class VisitorPrayOrderCRUD extends CRUD {
 		render(id, prayOrders);
 	}
 
-	public static void addPrayOrders(String values) {
+	public static String addPrayOrders(String values) {
 		String[] fields = request.params.data.get("body");
 		JsonParser parser = new JsonParser();
 		JsonObject obj = parser.parse(fields[0]).getAsJsonObject();
@@ -76,22 +76,18 @@ public class VisitorPrayOrderCRUD extends CRUD {
 		Visitor visitor = Visitor.findById(Long.valueOf(visitorId));
 		if (visitor != null) {
 			JsonElement descriptionElement = obj.get("description");
-			List<String> listDescriptions = getItemsDescription(String.valueOf(visitorId));
+			removeAllPrayOrdersByIdVisitor(String.valueOf(visitorId));
 			if (descriptionElement.isJsonArray()) {
 				JsonArray jsonArrayDescription = (JsonArray) descriptionElement;
 				for (JsonElement prayOrder : jsonArrayDescription) {
-					if (!listDescriptions.contains(prayOrder.getAsString())) {
-						savePrayOrder(visitor, prayOrder.getAsString());
-					}
+					savePrayOrder(visitor, prayOrder.getAsString());
 				}
 			} else if (descriptionElement.isJsonPrimitive()) {
-				if (!listDescriptions.contains(descriptionElement.getAsString())) {
-					savePrayOrder(visitor, descriptionElement.getAsString());
-				}
+				savePrayOrder(visitor, descriptionElement.getAsString());
 			}
+			return "{\"msg\":\"success\"}";
 		}
-		String id = String.valueOf(visitorId);
-		render("@VisitorPrayOrderCRUD.prayOrders", id);
+		return "{\"msg\":\"error\"}";
 	}
 
 	private static void savePrayOrder(Visitor visitor, String description) {
@@ -121,7 +117,7 @@ public class VisitorPrayOrderCRUD extends CRUD {
 	public static List<VisitorPrayOrder> getPrayOrdersByIdVisitor(String id) {
 		return VisitorPrayOrder.find("visitor.id = " + id + " and institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " order by description asc").fetch();
 	}
-	
+
 	public static int removeAllPrayOrdersByIdVisitor(String id) {
 		return VisitorPrayOrder.delete("visitor.id = " + id + " and institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId() + " order by description asc");
 	}
