@@ -80,10 +80,14 @@ public class VisitorPrayOrderCRUD extends CRUD {
 			if (descriptionElement.isJsonArray()) {
 				JsonArray jsonArrayDescription = (JsonArray) descriptionElement;
 				for (JsonElement prayOrder : jsonArrayDescription) {
-					savePrayOrder(visitor, prayOrder.getAsString());
+					if (prayOrder != null) {
+						savePrayOrder(visitor, prayOrder.getAsString());
+					}
 				}
 			} else if (descriptionElement.isJsonPrimitive()) {
-				savePrayOrder(visitor, descriptionElement.getAsString());
+				if (descriptionElement != null) {
+					savePrayOrder(visitor, descriptionElement.getAsString());
+				}
 			}
 			return "{\"msg\":\"success\"}";
 		}
