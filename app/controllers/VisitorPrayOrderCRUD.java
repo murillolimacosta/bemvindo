@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -66,6 +67,17 @@ public class VisitorPrayOrderCRUD extends CRUD {
 		if (!Utils.isNullOrEmpty(id))
 			visitorId = id;
 		render(id, prayOrders);
+	}
+
+	public static void prayOrdersByVisitorId(final String id) {
+		List<VisitorPrayOrder> prayOrders = getPrayOrdersByIdVisitor(id);
+		render(prayOrders);
+	}
+
+	public static String getVisitorById(final String id) {
+		Visitor visitor = Visitor.find("id = " + id + " and institutionId = " + Admin.getLoggedUserInstitution().getInstitution().getId()).first();
+		String visitorName = visitor.toString();
+		return visitorName;
 	}
 
 	public static String addPrayOrders(String values) {

@@ -1,6 +1,6 @@
+<meta charset="utf-8" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="@{'/public/javascripts/typeahead.min.js'}"></script>
-
 <script type="text/javascript">
 	var scntDiv = $('#orders-items');
 	var i = $('#orders-items tr').size() + 1;
@@ -8,7 +8,7 @@
 			.click(
 					function() {
 						scntDiv
-								.append('<tr><td><input type="text" class="form-control" name="description" id="order-description"/></td><td><button id="remove-order" class="btn btn-default"><i class="fa fa-minus-square"></i></button></td></tr>');
+								.append('<tr><td><input type="text" class="form-control" name="description" id="description"/></td><td><button id="remove-order" class="btn btn-default"><i class="fa fa-trash"></i></button></td></tr>');
 						i++;
 						return false;
 					});
@@ -23,7 +23,8 @@
 		return false;
 	});
 	$('#addPrayOrders').click(function(evt) {
-		document.getElementById("visitorId").setAttribute('value', getURLParameter('id'));
+		var visitorId = $("#btnPrayOrders").data('visitor-id');
+		document.getElementById("visitorId").setAttribute('value', visitorId);
 		var values = {};
 		var fields = $('#form').serializeArray();
 		$.each(fields, function() {
@@ -42,10 +43,14 @@
 			dataType : 'json',
 			data : JSON.stringify(values),
 			success : function(data) {
-				document.getElementById("message").innerHTML = 'Pedidos de ora&ccedil;&atilde;o salvos com sucesso!';
+				$("#message").show();
+				$("#message").html('Pedidos de oração salvos com sucesso. :)');
+				setTimeout('$("#message").hide()',3000);
 			},
 			error : function(data) {
-				document.getElementById("message").innerHTML = 'Erro ao salvar os pedidos de ora&ccedil;&atilde;o!';
+				$("#message").show()
+				$("#message").html('Tente novamente, por favor. Ocorreu um erro ao salvar. :(');
+				setTimeout('$("#message").hide()',3000);
 			}
 		});
 		return false;

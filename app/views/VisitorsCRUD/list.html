@@ -12,7 +12,7 @@
         	<div class="panel-heading"></div>
             <div class="panel-body">
             	<div class="dataTable_wrapper">
-			        #{crud.table fields:['postedAt','name', 'email', 'visitDay', 'isReceiveVisitation', 'action']}
+			        #{crud.table fields:['postedAt','name', 'email', 'visitDay', 'isReceiveVisitation', 'action', 'prayOrders']}
 			         	#{crud.custom 'postedAt'}
 			         		<a href="@{VisitorsCRUD.show(object.id)}">${object.postedAt}</a>
 				        #{/crud.custom}
@@ -39,7 +39,10 @@
 				        #{/crud.custom}
 			         	#{crud.custom 'action'}
 				       		<a href="@{VisitorsCRUD.show(object.id)}" class="btn btn-default"><i class="fa fa-edit"></i></a>
-				       		<a href="JavaScript:openPopup('@{VisitorPrayOrderCRUD.prayOrders(object.id)}');" class="btn btn-default" title="Adicionar Pedidos de Oração"><i class="fa fa-list-ol"></i></a>
+				        #{/crud.custom}
+			         	#{crud.custom 'prayOrders'}
+				       		<a id="btnPrayOrders" class="btn btn-default" data-visitor-id="${object.id}" title="Gerenciar Pedidos de Oração"><i class="fa fa-list-ol"></i></a>
+				       		<a id="btnPrayOrdersHidden" href="@{VisitorPrayOrderCRUD.prayOrdersByVisitorId(object.id)}">rs</a>
 				        #{/crud.custom}
 				    #{/crud.table}
 					<div class="alert alert-info alert-dismissable">
@@ -60,8 +63,11 @@
     });
     </script>
     <script type="text/javascript">
-		function openPopup(url) {
-			popupWindow = window.open(
-				url,'popUpWindow','height=700,width=600,left=400,menubar=no,location=no,resizable=no,scrollbars=no,status=yes')
-		}
+        $("#btnPrayOrders").click(function(){
+        	var visitorId = $("#btnPrayOrders").data('visitor-id');
+            $('#prayOrdersModal').modal('show');
+            $('#prayOdersTable').load('/visitorprayordercrud/prayordersbyvisitorid?id=' + visitorId);
+            $('#visitorTitle').load('/visitorprayordercrud/getvisitorbyid?id=' + visitorId);
+        });
 	</script>
+	#{include 'VisitorPrayOrderCRUD/prayOrdersModal.html' /}

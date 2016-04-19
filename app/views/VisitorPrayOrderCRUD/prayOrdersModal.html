@@ -1,0 +1,39 @@
+<meta charset="utf-8" />
+<div class="modal" id="prayOrdersModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+
+				<h4 class="modal-title">Pedidos de oração de <span id="visitorTitle">${visitorName}</span></h4>
+			</div>
+			<form id="form" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+				<div class="modal-body">
+					<div style="position: absolute; right: 16px; margin-top: 2px;">
+						<button id="add-new-order" class="btn btn-default" name="btn_adicionar">
+							<i class="fa fa-plus-square"> <span style="font-family: Arial"> Adicionar novo</span></i>
+						</button>
+					</div>
+					<div class="form-group">
+						<div class="table-responsive">
+							<table id="prayOdersTable" class="table table-hover">
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="form-group" style="float: left">
+						<span id="message"></span>
+					</div>
+					<div class="form-group" style="float: right">
+						<button id="addPrayOrders" class="btn btn-default">Salvar</button>
+					</div>
+				</div>
+				#{include 'includes/scriptPrayOrders.html' /}
+				<input id="visitorId" name="visitorId" type="hidden" />
+			</form>
+		</div>
+	</div>
+</div>
